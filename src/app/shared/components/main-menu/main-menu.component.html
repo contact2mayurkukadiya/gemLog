@@ -1,0 +1,18 @@
+<ul nz-menu [nzTheme]="theme" nzMode="inline" (click)="onItemClick()">
+    <li nz-menu-item routerLink="/dashboard" routerLinkActive="ant-menu-item-selected">
+        <i nz-icon nzType="dashboard"></i>
+        <span>Dashboard</span>
+    </li>
+    <li nz-menu-item routerLink="/settings" routerLinkActive="ant-menu-item-selected">
+        <i nz-icon nzType="dollar"></i>
+        <span>Create Pricing</span>
+    </li>
+    <li nz-menu-item routerLink="/dashboard/monthly-view" routerLinkActive="ant-menu-item-selected">
+        <i nz-icon nzType="table"></i>
+        <span>Monthly Log</span>
+    </li>
+    <li nz-menu-item (click)="logout()">
+        <i nz-icon nzType="logout"></i>
+        <span>Logout</span>
+    </li>
+</ul>

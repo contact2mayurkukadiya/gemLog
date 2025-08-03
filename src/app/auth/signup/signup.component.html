@@ -1,0 +1,41 @@
+<div class="auth-page-container">
+    <form nz-form [formGroup]="signupForm" class="auth-form" (ngSubmit)="submitForm()">
+        <h1 class="auth-title">Create Account</h1>
+
+        <!-- Email Input -->
+        <nz-form-item>
+            <nz-form-control nzErrorTip="Please enter a valid email address!">
+                <nz-input-group nzPrefixIcon="mail">
+                    <input type="email" nz-input formControlName="email" placeholder="Email" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+
+        <!-- Password Input -->
+        <nz-form-item>
+            <nz-form-control nzErrorTip="Password must be at least 6 characters long.">
+                <nz-input-group nzPrefixIcon="lock">
+                    <input type="password" nz-input formControlName="password" placeholder="Password" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+
+        <!-- Confirm Password Input -->
+        <nz-form-item>
+            <!-- We use the form group's error for the mismatch message -->
+            <nz-form-control nzErrorTip="Passwords do not match!">
+                <nz-input-group nzPrefixIcon="lock">
+                    <input type="password" nz-input formControlName="confirmPassword" placeholder="Confirm Password" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+
+        <button nz-button class="auth-form-button" [nzType]="'primary'" [disabled]="signupForm.invalid">
+            Sign Up
+        </button>
+
+        <div class="switch-auth-link">
+            Already have an account? <a routerLink="/auth/login">Log in here</a>
+        </div>
+    </form>
+</div>

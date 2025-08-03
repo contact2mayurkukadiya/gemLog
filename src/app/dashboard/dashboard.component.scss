@@ -1,0 +1,55 @@
+// Use variables for consistency with your app's theme
+$primary-green: #2ecc71;
+$card-bg: #2d3b45;
+$text-color: #ecf0f1;
+$text-color-light: #bdc3c7;
+
+.dashboard-container {
+    padding: 8px;
+}
+
+.dashboard-title {
+    color: $text-color;
+    margin-bottom: 24px;
+}
+
+.action-card {
+    background-color: $card-bg;
+    border: 1px solid lighten($card-bg, 10%);
+    color: $text-color;
+    height: 100%; // Make all cards in a row the same height
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-content {
+        text-align: center;
+        padding: 16px;
+    }
+
+    .card-icon {
+        font-size: 48px;
+        color: $primary-green;
+        margin-bottom: 16px;
+    }
+
+    .card-title {
+        color: $text-color;
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+
+    .card-description {
+        color: $text-color-light;
+        font-size: 14px;
+    }
+}
+
+// Remove default Ant Design padding from nz-card body
+:host ::ng-deep .ant-card-body {
+    padding: 0;
+}

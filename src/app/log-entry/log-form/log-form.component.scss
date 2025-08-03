@@ -1,0 +1,141 @@
+// --- Color and Layout Variables ---
+// Using variables makes it easy to change the theme later.
+$primary-green: #2ecc71;
+$dark-bg: #1e272e; // A very dark, almost black, background
+$container-bg: #2d3b45; // Background for rows and footer
+$text-color: #ecf0f1;
+$text-color-light: #bdc3c7;
+$border-color: #4a6278;
+
+// --- Main Page Structure ---
+.page-container {
+    padding: 16px;
+    background-color: $dark-bg;
+    min-height: calc(100vh - 64px); // Adjust based on your header height
+}
+
+// Override Ant Design's default white Page Header
+:host ::ng-deep .ant-page-header {
+    background-color: $container-bg;
+    padding: 16px 24px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+
+    .ant-page-header-heading-title,
+    .ant-page-header-heading-sub-title {
+        color: $text-color;
+    }
+}
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+}
+
+// --- Log Form Rows ---
+.log-row {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid $border-color;
+    transition: background-color 0.2s ease-in-out;
+
+    &:last-of-type {
+        border-bottom: none;
+    }
+
+    &.header {
+        color: $text-color-light;
+        font-weight: bold;
+        font-size: 12px;
+        text-transform: uppercase;
+        border-bottom-width: 2px;
+    }
+}
+
+// --- Column Layout within Rows ---
+.col {
+    padding: 0 8px;
+
+    &.tier {
+        width: 30%;
+        color: $text-color;
+        font-weight: 500;
+    }
+
+    &.price {
+        width: 20%;
+        color: $text-color-light;
+    }
+
+    &.count {
+        width: 25%;
+    }
+
+    &.total {
+        width: 25%;
+        text-align: right;
+        font-weight: bold;
+        color: $primary-green;
+    }
+}
+
+// --- Override Ant Design Inputs for Dark Theme ---
+:host ::ng-deep .ant-input-number {
+    background-color: lighten($container-bg, 5%);
+    border-color: $border-color !important;
+    color: $text-color;
+
+    .ant-input-number-input {
+        color: $text-color;
+        text-align: center;
+    }
+
+    .ant-input-number-handler {
+        background-color: $container-bg;
+        border-color: $border-color !important;
+
+        .anticon {
+            color: $primary-green;
+        }
+    }
+}
+
+// --- Footer Section ---
+.totals-footer {
+    margin-top: 24px;
+    padding: 16px;
+    background-color: $container-bg;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap; // For responsiveness on smaller screens
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+
+    .total-item {
+        color: $text-color-light;
+        font-size: 16px;
+
+        strong {
+            color: $text-color;
+            font-size: 18px;
+            margin-left: 8px;
+        }
+    }
+
+    // Ensure the button is a strong call to action
+    button {
+        background-color: $primary-green;
+        border-color: $primary-green;
+        flex-grow: 1; // Makes it take more space on small screens
+        max-width: 200px; // But not too big on large screens
+
+        &:hover {
+            background-color: darken($primary-green, 5%);
+            border-color: darken($primary-green, 5%);
+        }
+    }
+}

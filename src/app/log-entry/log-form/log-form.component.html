@@ -1,0 +1,46 @@
+<div class="page-container">
+    <nz-page-header [nzGhost]="false">
+        <nz-page-header-title>{{ isEditMode ? 'Edit Log' : 'Add New Log' }}</nz-page-header-title>
+        <nz-page-header-subtitle>{{ logDate | date:'fullDate' }}</nz-page-header-subtitle>
+    </nz-page-header>
+
+    <div *ngIf="isLoading" class="spinner-container">
+        <nz-spin nzSimple nzSize="large"></nz-spin>
+    </div>
+
+    <form nz-form [formGroup]="logForm" (ngSubmit)="submitForm()" *ngIf="!isLoading">
+        <div formArrayName="entries">
+            <!-- Table Header -->
+            <div class="log-row header">
+                <div class="col tier">Weight/Sieve</div>
+                <div class="col price">Price</div>
+                <div class="col count">Diamonds</div>
+                <div class="col total">Total</div>
+            </div>
+            <!-- Form Rows -->
+            <div *ngFor="let entry of entries.controls; let i = index" [formGroupName]="i" class="log-row">
+                <div class="col tier"><strong>{{ entry.value.tierName }}</strong></div>
+                <div class="col price">{{ entry.value.priceAtTime | number:'1.2-2' }}</div>
+                <div class="col count">
+                    <nz-input-number formControlName="count" [nzMin]="0" [nzStep]="1" class="w-full"></nz-input-number>
+                </div>
+                <div class="col total">
+                    {{ (entry.value.count * entry.value.priceAtTime) | currency:'INR':'symbol-narrow':'1.2-2' }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Totals and Submit Button -->
+        <div class="totals-footer">
+            <div class="total-item">
+                <span>Total Diamonds: <strong>{{ totalDiamonds | number }}</strong></span>
+            </div>
+            <div class="total-item">
+                <span>Total Income: <strong>{{ totalIncome | currency:'INR':'symbol-narrow':'1.2-2' }}</strong></span>
+            </div>
+            <button nz-button nzType="primary" nzSize="large">
+                <i nz-icon nzType="save"></i> Save Log
+            </button>
+        </div>
+    </form>
+</div>

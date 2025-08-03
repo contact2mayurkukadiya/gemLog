@@ -1,0 +1,50 @@
+<ng-container *ngIf="user$ | async as user; else showLogin">
+  <ng-container *ngIf="isMobile$ | async; else desktopLayout">
+    <nz-layout class="app-layout">
+      <nz-header class="app-header">
+        <i class="trigger" nz-icon nzType="menu" (click)="drawerVisible = true"></i>
+        <h1 class="app-title">Gem Log</h1>
+      </nz-header>
+      <nz-content class="app-content">
+        <router-outlet></router-outlet>
+      </nz-content>
+      <nz-drawer [nzVisible]="drawerVisible" nzPlacement="left" (nzOnClose)="drawerVisible = false"
+        [nzTitle]="drawerTitleTemplate" [nzClosable]="false" [nzBodyStyle]="{padding: 0}">
+        <ng-container *nzDrawerContent>
+          <app-main-menu [theme]="'light'" (menuItemClicked)="drawerVisible = false"></app-main-menu>
+        </ng-container>
+      </nz-drawer>
+    </nz-layout>
+  </ng-container>
+</ng-container>
+
+<ng-template #desktopLayout>
+  <nz-layout class="app-layout">
+    <nz-sider nzTheme="dark" [nzWidth]="240">
+      <div class="logo">
+        <h3>GemLog</h3>
+      </div>
+      <app-main-menu [theme]="'dark'"></app-main-menu>
+    </nz-sider>
+    <nz-layout>
+      <nz-content class="app-content-desktop">
+        <router-outlet></router-outlet>
+      </nz-content>
+    </nz-layout>
+  </nz-layout>
+</ng-template>
+
+
+<ng-template #showLogin>
+  <router-outlet></router-outlet>
+</ng-template>
+
+
+<ng-template #drawerTitleTemplate>
+  <div class="drawer-title-container">
+    <span>Menu</span>
+    <button nz-button nzType="text" (click)="drawerVisible = false" class="close-drawer-btn">
+      <i nz-icon nzType="close"></i>
+    </button>
+  </div>
+</ng-template>
