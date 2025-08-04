@@ -38,7 +38,17 @@
             ],
             "styles": [
               "src/theme.less",
-              "src/styles.scss"
+              "src/styles.scss",
+              {
+                "input": "src/app/styles/themes/theme-light.less",
+                "bundleName": "theme-light",
+                "inject": true
+              },
+              {
+                "input": "src/app/styles/themes/theme-dark.less",
+                "bundleName": "theme-dark",
+                "inject": false
+              }
             ],
             "scripts": []
           },

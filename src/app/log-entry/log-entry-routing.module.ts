@@ -4,6 +4,10 @@ import { LogFormComponent } from './log-form/log-form.component';
 
 const routes: Routes = [
   {
+    path: 'add',
+    component: LogFormComponent
+  },
+  {
     path: 'edit/:date',
     component: LogFormComponent
   }

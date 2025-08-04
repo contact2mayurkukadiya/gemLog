@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { combineLatest, of, Subscription } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Timestamp } from 'firebase/firestore';
 import { DailyLog, DiamondEntry, PriceTier } from '../../core/models/gem-log.models';
 import { FirestoreService } from '../../core/services/firestore.service';
@@ -14,7 +14,7 @@ import { NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-log-form',
-  imports: [SharedModule],
+  imports: [SharedModule, FormsModule],
   templateUrl: './log-form.component.html',
   styleUrls: ['./log-form.component.scss']
 })
@@ -28,6 +28,8 @@ export class LogFormComponent implements OnInit, OnDestroy {
   totalDiamonds = 0;
   totalIncome = 0;
 
+
+
   private valueChangesSub!: Subscription;
 
   constructor(
@@ -36,8 +38,7 @@ export class LogFormComponent implements OnInit, OnDestroy {
     private router: Router,
     private firestoreService: FirestoreService,
     private authService: AuthService,
-    private message: NzMessageService,
-    @Optional() private modalRef: NzModalRef
+    private message: NzMessageService
   ) {
     this.userId = this.authService.getCurrentUserId()!;
     this.logForm = this.fb.group({
@@ -51,25 +52,19 @@ export class LogFormComponent implements OnInit, OnDestroy {
       this.isEditMode = true;
       this.logDate = new Date(dateParam);
     }
-    this.logDate.setHours(0, 0, 0, 0); // Normalize date to start of day
-
-    this.loadData();
+    this.loadDataForSelectedDate();
   }
 
-  loadData() {
-    const logDateStr = this.logDate.toISOString().split('T')[0];
+  loadDataForSelectedDate(): void {
+    this.isLoading = true;
+    if (this.valueChangesSub) this.valueChangesSub.unsubscribe();
 
-    // Fetch price tiers and any existing log for the date at the same time
+    const dateStr = this.formatDate(this.logDate);
+
     combineLatest([
-      this.firestoreService.getPriceTiers(this.userId).pipe(take(1)),
-      this.firestoreService.getLogForDate(this.userId, logDateStr).pipe(take(1))
+      this.firestoreService.getPriceTiers(this.userId),
+      this.firestoreService.getLogForDate(this.userId, dateStr)
     ]).subscribe(([tiers, log]) => {
-      if (!tiers || tiers.length === 0) {
-        this.message.error('Please set up price tiers in Settings first.');
-        this.router.navigate(['/settings']);
-        return;
-      }
-
       this.priceTiers = tiers;
       this.buildForm(log);
       this.isLoading = false;
@@ -77,8 +72,8 @@ export class LogFormComponent implements OnInit, OnDestroy {
   }
 
   buildForm(existingLog: DailyLog | null) {
+    this.entries.clear();
     this.priceTiers.forEach(tier => {
-      // Find if an entry for this tier already exists in the log
       const existingEntry = existingLog?.entries.find(e => e.priceTierId === tier.id);
       this.entries.push(this.createEntryGroup(tier, existingEntry));
     });
@@ -95,42 +90,48 @@ export class LogFormComponent implements OnInit, OnDestroy {
   createEntryGroup(tier: PriceTier, existingEntry: DiamondEntry | undefined): FormGroup {
     return this.fb.group({
       priceTierId: [tier.id],
-      tierName: [tier.name], // For display only
-      priceAtTime: [tier.price], // For calculation
+      tierName: [tier.price],
+      priceAtTime: [tier.price],
       count: [existingEntry?.count || 0],
     });
   }
 
-  setupValueChanges() {
+  setupValueChanges(): void {
     this.valueChangesSub = this.logForm.valueChanges.subscribe(() => {
       this.calculateTotals();
     });
   }
 
-  calculateTotals() {
+  calculateTotals(): void {
     let diamonds = 0;
     let income = 0;
-    this.entries.controls.forEach(control => {
+    this.entries.controls.forEach((control, index) => {
       const entryValue = control.value;
       const count = Number(entryValue.count) || 0;
-      const price = Number(entryValue.priceAtTime) || 0;
+      const tierPrice = this.priceTiers[index]?.price || 0;
       diamonds += count;
-      income += count * price;
+      income += count * tierPrice;
     });
     this.totalDiamonds = diamonds;
     this.totalIncome = income;
   }
 
+  onDateChange(): void {
+    this.loadDataForSelectedDate();
+  }
+
   submitForm(): void {
+    if (this.logForm.invalid) return;
+
     const formValues = this.logForm.value.entries;
 
     const logToSave: DailyLog = {
       date: Timestamp.fromDate(this.logDate),
       userId: this.userId,
-      entries: formValues.map((e: any) => ({
+      entries: formValues.map((e: any, index: number) => ({
         priceTierId: e.priceTierId,
         count: Number(e.count) || 0,
-        priceAtTime: e.priceAtTime
+        priceAtTime: this.priceTiers[index]?.price || 0
       })),
       totalDiamonds: this.totalDiamonds,
       totalIncome: this.totalIncome,
@@ -139,19 +140,20 @@ export class LogFormComponent implements OnInit, OnDestroy {
     this.firestoreService.saveDailyLog(this.userId, logToSave).subscribe({
       next: () => {
         this.message.success(`Log for ${this.logDate.toLocaleDateString()} saved!`);
-        if (this.modalRef) {
-          this.modalRef.close();
-        } else {
-          this.router.navigate(['/dashboard']);
-        }
+        this.router.navigate(['/dashboard/monthly-view']);
       },
-      error: (err: any) => this.message.error(err.message)
+      error: (err) => this.message.error(err.message)
     });
   }
 
-  ngOnDestroy(): void {
-    if (this.valueChangesSub) {
-      this.valueChangesSub.unsubscribe();
-    }
+  private formatDate(date: Date): string {
+    const d = new Date(date);
+    d.setHours(0, 0, 0, 0); // Normalize to start of day for consistent IDs
+    return d.toISOString().split('T')[0]; // YYYY-MM-DD format
   }
+
+  ngOnDestroy(): void {
+    if (this.valueChangesSub) this.valueChangesSub.unsubscribe();
+  }
+
 }

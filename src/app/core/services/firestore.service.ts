@@ -10,9 +10,13 @@ import {
     query,
     where,
     Timestamp,
+    deleteDoc,
+    writeBatch,
+    DocumentReference,
 } from '@angular/fire/firestore';
-import { from, Observable } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { DailyLog, PriceTier } from '../models/gem-log.models';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
     providedIn: 'root',
@@ -22,6 +26,15 @@ export class FirestoreService {
 
     // --- Price Tier Management ---
 
+    deletePriceTier(userId: string, tierId: string): Observable<void> {
+        if (!tierId) {
+            return from(Promise.resolve());
+        }
+        const tierDocRef = doc(this.firestore, `users/${userId}/priceTiers/${tierId}`);
+        return from(deleteDoc(tierDocRef));
+    }
+
+
     // Get Price Tiers for a User
     getPriceTiers(userId: string): Observable<PriceTier[]> {
         const tiersCollection = collection(this.firestore, `users/${userId}/priceTiers`);
@@ -29,12 +42,31 @@ export class FirestoreService {
     }
 
     // Save/Update Price Tiers for a User
-    savePriceTiers(userId: string, tiers: PriceTier[]) {
-        const promises = tiers.map((tier) => {
-            const tierDocRef = doc(this.firestore, `users/${userId}/priceTiers/${tier.id}`);
-            return setDoc(tierDocRef, tier, { merge: true });
+    savePriceTiers(userId: string, tiers: PriceTier[]): Observable<void> {
+        const batch = writeBatch(this.firestore);
+
+        tiers.forEach(tierFromForm => {
+            const dataToSave = {
+                weight: tierFromForm.weight,
+                sieve: tierFromForm.sieve,
+                price: tierFromForm.price,
+            };
+
+            let docRef: DocumentReference;
+
+            if (tierFromForm.id) {
+                // --- CASE 1: UPDATE EXISTING DOCUMENT ---
+                docRef = doc(this.firestore, `users/${userId}/priceTiers/${tierFromForm.id}`);
+                batch.update(docRef, dataToSave);
+            } else {
+                // --- CASE 2: CREATE NEW DOCUMENT ---
+                const newId = uuidv4();
+                docRef = doc(this.firestore, `users/${userId}/priceTiers/${newId}`);
+                batch.set(docRef, dataToSave);
+            }
         });
-        return from(Promise.all(promises));
+
+        return from(batch.commit());
     }
 
     // --- Daily Log Management ---

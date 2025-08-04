@@ -1,17 +1,38 @@
-// Import your color variables if you have them in a central file,
-// or define them here.
-$primary-green: #2ecc71;
-$dark-bg: #1e272e;
-$content-bg: #2d3b45;
-$text-color: #ecf0f1;
-$border-color: #4a6278;
-
-// --- Main Layout ---
 .app-layout {
-    height: 100vh; // Make the layout take the full viewport height
+    height: 100vh;
+    background-color: var(--layout-bg);
 }
 
-// --- Logo in Sidebar ---
+/* --- Header for Mobile --- */
+.app-header {
+    background: var(--content-bg);
+    border-bottom: 1px solid var(--border-color-base);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 99999;
+
+    .app-title {
+        color: var(--heading-color);
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+
+    .trigger {
+        color: var(--text-color);
+    }
+}
+
+/* --- Sider for Desktop --- */
+.desktop-sider {
+    // The sider's theme is set by nzTheme="light", but we can override the border.
+    border-right: 1px solid var(--border-color-base);
+}
+
 .logo {
     height: 64px;
     display: flex;
@@ -19,71 +40,29 @@ $border-color: #4a6278;
     justify-content: center;
 
     h3 {
-        color: #2ecc71; // Your primary green
+        color: var(--logo-color);
         margin: 0;
         font-size: 20px;
         font-weight: 600;
     }
 }
 
+/* --- Content Areas --- */
+.app-content {
+    // Mobile
+    margin: 8px;
+}
+
 .app-content-desktop {
-    margin: 24px;
-    background: #2d3b45;
+    background: var(--content-bg);
     padding: 24px;
-    border-radius: 8px;
-    // Let the content area scroll, not the whole page
-    height: calc(100vh - 48px);
+    margin: 16px;
+    border-radius: 4px;
+    height: calc(100vh - 32px);
     overflow: auto;
 }
 
-.app-header {
-    display: flex;
-    align-items: center;
-    padding: 0 24px;
-    gap: 16px;
-    color: $text-color;
-
-    .app-title {
-        font-size: 24px;
-        font-weight: 600;
-        color: $text-color;
-        margin-bottom: 0;
-        text-transform: uppercase;
-    }
-}
-
-.trigger {
-    font-size: 18px;
-    cursor: pointer;
-    color: $text-color;
-    transition: color 0.3s;
-
-    &:hover {
-        color: $primary-green;
-    }
-}
-
-// --- Main Content Area ---
-.app-content {
-    // margin: 24px 16px;
-    padding: 24px;
-    background: $content-bg;
-    min-height: 280px;
-    // border-radius: 8px;
-    overflow: auto; // Add scroll if content is too long
-}
-
-// Remove the header-spacer if you don't need it.
-// justify-content: space-between is usually enough.
-
-:host ::ng-deep .ant-drawer-body {
-    padding: 0;
-}
-
-:host ::ng-deep .ant-drawer-title {
-    font-weight: 600;
-}
-
+/* --- Drawer Styles --- */
 .drawer-title-container {
     display: flex;
     justify-content: space-between;
@@ -91,21 +70,8 @@ $border-color: #4a6278;
     width: 100%;
 }
 
-.close-drawer-btn {
-    color: #888;
-
-    &:hover {
-        color: #333;
-        background-color: transparent;
-    }
-}
-
-:host ::ng-deep .ant-drawer-header {
-    padding-right: 16px;
-}
-
-:host ::ng-deep .ant-drawer-header-title {
-    flex-grow: 1;
+:host ::ng-deep .ant-drawer-body {
+    padding: 0;
 }
 
 :host ::ng-deep .ant-drawer-body .ant-menu {

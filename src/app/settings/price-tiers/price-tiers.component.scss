@@ -1,0 +1,35 @@
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 12px;
+}
+
+.page-title {
+    color: var(--heading-color);
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+@media (max-width: 768px) {
+    .table-scroll-container {
+        overflow-x: auto;
+    }
+}
+
+.ant-table-cell {
+    padding: 8px 8px;
+}
+
+td nz-form-item {
+    margin-bottom: 0;
+}
+
+.w-full {
+    width: 100%;
+}

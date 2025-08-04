@@ -1,46 +1,57 @@
 <div class="page-container">
-    <nz-page-header [nzGhost]="false">
-        <nz-page-header-title>{{ isEditMode ? 'Edit Log' : 'Add New Log' }}</nz-page-header-title>
-        <nz-page-header-subtitle>{{ logDate | date:'fullDate' }}</nz-page-header-subtitle>
-    </nz-page-header>
-
-    <div *ngIf="isLoading" class="spinner-container">
-        <nz-spin nzSimple nzSize="large"></nz-spin>
-    </div>
-
-    <form nz-form [formGroup]="logForm" (ngSubmit)="submitForm()" *ngIf="!isLoading">
-        <div formArrayName="entries">
-            <!-- Table Header -->
-            <div class="log-row header">
-                <div class="col tier">Weight/Sieve</div>
-                <div class="col price">Price</div>
-                <div class="col count">Diamonds</div>
-                <div class="col total">Total</div>
+    <nz-card class="log-form-card" [nzTitle]="isEditMode ? 'Edit Log' : 'Add New Log'" [nzExtra]="datePicker">
+        <nz-spin [nzSpinning]="isLoading">
+            <div [formGroup]="logForm" class="log-table-container">
+                <nz-table #logTable nzSize="small" [nzFrontPagination]="false" [nzShowPagination]="false"
+                    [nzBordered]="true" class="log-table" [nzData]="priceTiers">
+                    <thead>
+                        <tr>
+                            <th [nzWidth]="'60px'">Weight <br /> Sieve</th>
+                            <th class="text-right" [nzWidth]="'70px'">Price</th>
+                            <th>Diamond</th>
+                            <th class="text-right">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="entries">
+                        <tr *ngFor="let control of entries.controls; let i = index" [formGroupName]="i">
+                            <td>
+                                <strong>{{ priceTiers[i].weight }}</strong>
+                                <span *ngIf="priceTiers[i].sieve">-{{ priceTiers[i].sieve }}</span>
+                            </td>
+                            <td class="text-right">{{ priceTiers[i].price | currency:'INR' }}</td>
+                            <td>
+                                <nz-form-item>
+                                    <nz-form-control>
+                                        <nz-input-number class="w-full" formControlName="count"
+                                            [nzMin]="0"></nz-input-number>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </td>
+                            <td class="text-right">
+                                <strong>
+                                    {{ ((control.value.count || 0) * (priceTiers[i].price || 0)) | currency:'INR' }}
+                                </strong>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
             </div>
-            <!-- Form Rows -->
-            <div *ngFor="let entry of entries.controls; let i = index" [formGroupName]="i" class="log-row">
-                <div class="col tier"><strong>{{ entry.value.tierName }}</strong></div>
-                <div class="col price">{{ entry.value.priceAtTime | number:'1.2-2' }}</div>
-                <div class="col count">
-                    <nz-input-number formControlName="count" [nzMin]="0" [nzStep]="1" class="w-full"></nz-input-number>
+
+            <div class="totals-footer">
+                <div class="total-item">
+                    Total Diamonds: <strong>{{ totalDiamonds | number }}</strong>
                 </div>
-                <div class="col total">
-                    {{ (entry.value.count * entry.value.priceAtTime) | currency:'INR':'symbol-narrow':'1.2-2' }}
+                <div class="total-item income">
+                    Total Income: <strong>{{ totalIncome | currency:'INR' }}</strong>
                 </div>
+                <button nz-button nzType="primary" (click)="submitForm()" class="submit" [disabled]="logForm.invalid">
+                    <i nz-icon nzType="save"></i> Save
+                </button>
             </div>
-        </div>
-
-        <!-- Totals and Submit Button -->
-        <div class="totals-footer">
-            <div class="total-item">
-                <span>Total Diamonds: <strong>{{ totalDiamonds | number }}</strong></span>
-            </div>
-            <div class="total-item">
-                <span>Total Income: <strong>{{ totalIncome | currency:'INR':'symbol-narrow':'1.2-2' }}</strong></span>
-            </div>
-            <button nz-button nzType="primary" nzSize="large">
-                <i nz-icon nzType="save"></i> Save Log
-            </button>
-        </div>
-    </form>
+        </nz-spin>
+    </nz-card>
+    <ng-template #datePicker>
+        <nz-date-picker [(ngModel)]="logDate" (ngModelChange)="onDateChange()" [nzAllowClear]="false">
+        </nz-date-picker>
+    </ng-template>
 </div>

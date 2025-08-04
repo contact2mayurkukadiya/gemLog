@@ -13,11 +13,11 @@ export const routes: Routes = [
         component: PriceTiersComponent,
         canActivate: [AuthGuard]
     },
-    // {
-    //     path: 'log',
-    //     loadChildren: () => import('./log-entry/log-entry.module').then(m => m.LogEntryModule),
-    //     canActivate: [AuthGuard]
-    // },
+    {
+        path: 'log',
+        loadChildren: () => import('./log-entry/log-entry.module').then(m => m.LogEntryModule),
+        canActivate: [AuthGuard]
+    },
     {
         path: 'dashboard',
         component: DashboardComponent,
@@ -25,8 +25,8 @@ export const routes: Routes = [
     },
     {
         path: '',
-        redirectTo: '/auth/login',
+        redirectTo: '/dashboard',
         pathMatch: 'full'
     },
-    { path: '**', redirectTo: '/auth/login' }
+    { path: '**', redirectTo: '/dashboard' }
 ];

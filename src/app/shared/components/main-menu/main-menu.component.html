@@ -11,6 +11,12 @@
         <i nz-icon nzType="table"></i>
         <span>Monthly Log</span>
     </li>
+    <li nz-menu-divider></li>
+    <li nz-menu-item (click)="toggleTheme(); onToggleClick($event)">
+        <i nz-icon [nzType]="themeService.isDarkMode ? 'sun' : 'moon'"></i>
+        <span>Switch to {{ themeService.isDarkMode ? 'Light' : 'Dark' }} Mode</span>
+    </li>
+
     <li nz-menu-item (click)="logout()">
         <i nz-icon nzType="logout"></i>
         <span>Logout</span>

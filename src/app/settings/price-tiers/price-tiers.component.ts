@@ -5,6 +5,7 @@ import { FirestoreService } from '../../core/services/firestore.service';
 import { AuthService } from '../../core/services/auth.service';
 import { PriceTier } from '../../core/models/gem-log.models';
 import { SharedModule } from '../../shared/shared.module';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-price-tiers',
@@ -21,7 +22,8 @@ export class PriceTiersComponent implements OnInit {
     private fb: FormBuilder,
     private firestoreService: FirestoreService,
     private authService: AuthService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private modal: NzModalService
   ) {
     this.priceForm = this.fb.group({
       tiers: this.fb.array([]),
@@ -45,40 +47,82 @@ export class PriceTiersComponent implements OnInit {
   // Load existing price tiers from Firestore
   loadTiers(): void {
     if (!this.userId) return;
+
     this.firestoreService.getPriceTiers(this.userId).subscribe(tiers => {
-      // Clear existing form array controls before loading new ones
-      while (this.tiers.length) {
-        this.tiers.removeAt(0);
-      }
+      this.tiers.clear();
 
       if (tiers && tiers.length > 0) {
-        tiers.forEach(tier => this.tiers.push(this.createTierGroup(tier.name, tier.price)));
+        tiers.forEach(tier => {
+          this.tiers.push(this.createTierGroup(tier));
+        });
       } else {
-        // If no tiers exist, start with one empty row
-        this.addTier();
+        this.createTierGroup();
       }
       this.isLoading = false;
     });
   }
 
   // Creates a FormGroup for a single tier
-  createTierGroup(name: string, price: number): FormGroup {
-    // Note: The 'id' will be based on the name. For this design, let's assume 'name' is the ID.
+  createTierGroup(tier?: PriceTier): FormGroup {
     return this.fb.group({
-      name: [name, Validators.required],
-      price: [price, [Validators.required, Validators.min(0)]],
+      id: [tier?.id || null], // Keep track of the doc ID
+      weight: [tier?.weight || '', Validators.required],
+      sieve: [tier?.sieve || ''], // Not required
+      price: [tier?.price || 0, [Validators.required, Validators.min(0)]],
     });
   }
 
+
   // Adds a new, empty tier to the FormArray
-  addTier(): void {
-    this.tiers.push(this.createTierGroup('', 0));
+  addNewTierRow(): void {
+    this.tiers.push(this.createTierGroup());
   }
+
 
   // Removes a tier from the FormArray at a given index
   removeTier(index: number): void {
+    // We'll need to add a way to delete from Firestore later if needed.
+    // For now, this just removes from the UI.
     this.tiers.removeAt(index);
   }
+
+  deleteTier(index: number): void {
+    const tierToDelete = this.tiers.at(index);
+    const tierId = tierToDelete.get('id')?.value;
+
+    // CASE 1: The row is new and not yet in Firestore (no ID).
+    // Just remove it from the form array without showing a modal.
+    if (!tierId) {
+      this.tiers.removeAt(index);
+      return;
+    }
+
+    // CASE 2: The row exists in Firestore. Show a confirmation modal.
+    this.modal.confirm({
+      nzTitle: 'Are you sure you want to delete this price tier?',
+      nzContent: 'This action cannot be undone. Any historical logs will still keep their price, but you cannot add new logs with this tier.',
+      nzOkText: 'Yes, Delete',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => {
+        // This code runs when the user clicks "Yes, Delete"
+        this.firestoreService.deletePriceTier(this.userId, tierId).subscribe({
+          next: () => {
+            // Remove the row from the UI after successful deletion
+            this.tiers.removeAt(index);
+            this.message.success('Price tier deleted successfully.');
+          },
+          error: (err: any) => {
+            this.message.error(`Failed to delete tier: ${err.message}`);
+          }
+        });
+      },
+      nzCancelText: 'Cancel',
+      nzOnCancel: () => console.log('Delete canceled'),
+    });
+  }
+
+
 
   // Submits the form data to Firestore
   submitForm(): void {
@@ -96,14 +140,18 @@ export class PriceTiersComponent implements OnInit {
 
     // Create PriceTier objects from the form value, using 'name' as the ID.
     const tiersToSave: PriceTier[] = this.priceForm.value.tiers.map((t: any) => ({
-      id: t.name.replace(/\s+/g, '-'), // Creates a simple ID like '1-20'
-      name: t.name,
+      id: t.id, // Will be null for new documents
+      weight: t.weight,
+      sieve: t.sieve,
       price: t.price
     }));
 
     this.firestoreService.savePriceTiers(this.userId, tiersToSave).subscribe({
-      next: () => this.message.success('Prices saved successfully!'),
-      error: (err: any) => this.message.error(`Save failed: ${err.message}`),
+      next: () => {
+        this.message.success('Prices saved successfully!');
+        this.loadTiers();
+      },
+      error: (err) => this.message.error(`Save failed: ${err.message}`),
     });
   }
 }

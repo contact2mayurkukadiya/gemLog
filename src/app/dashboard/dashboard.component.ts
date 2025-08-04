@@ -27,13 +27,13 @@ export class DashboardComponent {
       title: 'Add Diamond Log',
       icon: 'form',
       description: 'Enter your daily diamond count in a quick-entry modal.',
-      action: () => this.openAddLogModal() // <-- This action is different
+      action: () => this.router.navigate(['/log/add'])
     },
     {
       title: 'View Monthly Log',
       icon: 'table',
       description: 'Review your earnings in a detailed monthly grid.',
-      action: () => this.router.navigate(['/dashboard/monthly-view'])
+      action: () => this.router.navigate(['/monthly-view'])
     }
   ];
 
@@ -46,10 +46,12 @@ export class DashboardComponent {
 
   openAddLogModal(): void {
     this.modalService.create({
-      nzTitle: 'Add Today\'s Diamond Log',
+      nzTitle: 'Add/Edit Log',
       nzContent: LogFormComponent,
-      nzWidth: '800px',
+      nzClassName: 'responsive-log-modal',
       nzFooter: null,
+      nzClosable: true,
+
     });
   }
 }

@@ -2,8 +2,9 @@ import { Timestamp } from 'firebase/firestore';
 
 // Represents a single price tier, e.g., "1-20", "21-40"
 export interface PriceTier {
-    id: string; // A unique ID, e.g., '1-20' or a Firestore-generated ID
-    name: string; // e.g., "1-20"
+    id: string; // Firestore-generated ID
+    weight: string; // e.g., "1-20" or "Single"
+    sieve?: string; // Optional: e.g., "+11" or "Round"
     price: number;
 }
 

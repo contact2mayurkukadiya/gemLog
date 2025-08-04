@@ -1,1 +1,71 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    // --- Primary & Accent Colors ---
+    --primary-color: #1890ff;
+    /* The main brand color for buttons, links, highlights */
+    --primary-green: #2ecc71;
+    /* A secondary accent color for totals, etc. */
+
+    // --- Background Colors ---
+    --layout-bg: #f0f2f5;
+    /* The background of the entire page layout */
+    --content-bg: #ffffff;
+    /* The background for "paper" elements like cards, forms, modals */
+    --item-hover-bg: #e6f7ff;
+    /* Background for hovered items in lists or menus */
+    --table-header-bg: #fafafa;
+    /* Background for table headers */
+    --sider-bg: #ffffff;
+    /* Background for the desktop sidebar */
+
+    // --- Text Colors ---
+    --text-color: rgba(0, 0, 0, 0.85);
+    /* Main text color */
+    --text-color-secondary: rgba(0, 0, 0, 0.65);
+    /* For descriptions and less important text */
+    --heading-color: rgba(0, 0, 0, 0.85);
+    /* Color for h1, h2, etc. */
+    --link-color: var(--primary-color);
+    /* Links will use the primary color */
+    --logo-color: var(--primary-color);
+    /* Color of the logo text */
+
+    // --- Borders & Shadows ---
+    --border-color-base: #d9d9d9;
+    /* The default border color for inputs and cards */
+    --border-color-split: #f0f0f0;
+    /* A lighter border color for dividers */
+    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+    /* A subtle shadow for cards */
+}
+
+/* Dark Theme Overrides */
+/* These variables are applied ONLY when the body has the 'dark-theme' class, switched by our ThemeService */
+body.dark-theme {
+    // --- Primary & Accent Colors ---
+    --primary-color: #1890ff;
+    --primary-green: #2ecc71;
+
+    // --- Background Colors ---
+    --layout-bg: #141414;
+    --content-bg: #1f1f1f;
+    --item-hover-bg: rgba(255, 255, 255, 0.08);
+    --table-header-bg: #1d1d1d;
+    --sider-bg: #001529;
+    /* A common dark sider color from Ant Design */
+
+    // --- Text Colors ---
+    --text-color: rgba(255, 255, 255, 0.85);
+    --text-color-secondary: rgba(255, 255, 255, 0.65);
+    --heading-color: var(--text-color);
+    --link-color: var(--primary-color);
+    --logo-color: var(--primary-color);
+
+    // --- Borders & Shadows ---
+    --border-color-base: #434343;
+    --border-color-split: #303030;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+body {
+    transition: background-color 0.3s ease-in-out;
+}

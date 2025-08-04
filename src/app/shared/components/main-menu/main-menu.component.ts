@@ -6,6 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { AuthService } from '../../../core/services/auth.service';
+import { ThemeService } from '../../../core/services/theme.service';
 
 @Component({
   selector: 'app-main-menu',
@@ -25,7 +26,11 @@ export class MainMenuComponent {
   // Create an output event to notify the parent when an item is clicked
   @Output() menuItemClicked = new EventEmitter<void>();
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    public themeService: ThemeService
+  ) { }
 
   // All menu logic, including logout, now lives cleanly in this component
   logout(): void {
@@ -41,5 +46,14 @@ export class MainMenuComponent {
   // This method will be called on any menu item click
   onItemClick(): void {
     this.menuItemClicked.emit();
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
+  }
+
+  // This prevents the parent's (click) event from firing when the toggle is clicked
+  onToggleClick(event: MouseEvent): void {
+    event.stopPropagation();
   }
 }
