@@ -7,11 +7,13 @@ import { map, Observable } from 'rxjs';
 import { AuthService } from './core/services/auth.service';
 import { MenuService, NzMenuModule } from 'ng-zorro-antd/menu';
 import { MainMenuComponent } from './shared/components/main-menu/main-menu.component';
+import { MobileActionBarComponent } from './shared/components/mobile-action-bar/mobile-action-bar.component';
 
 @Component({
   selector: 'app-root',
   imports: [
     MainMenuComponent,
+    MobileActionBarComponent,
     NzMenuModule,
     SharedModule,
     RouterModule,

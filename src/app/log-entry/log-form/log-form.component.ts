@@ -27,6 +27,7 @@ export class LogFormComponent implements OnInit, OnDestroy {
   userId: string;
   totalDiamonds = 0;
   totalIncome = 0;
+  currentDate = new Date();
 
 
 
@@ -58,11 +59,12 @@ export class LogFormComponent implements OnInit, OnDestroy {
   loadDataForSelectedDate(): void {
     this.isLoading = true;
     if (this.valueChangesSub) this.valueChangesSub.unsubscribe();
-
     const dateStr = this.formatDate(this.logDate);
 
     combineLatest([
-      this.firestoreService.getPriceTiers(this.userId),
+      this.isEditMode ?
+        this.firestoreService.getAllPriceTiers(this.userId) :
+        this.firestoreService.getPriceTiers(this.userId),
       this.firestoreService.getLogForDate(this.userId, dateStr)
     ]).subscribe(([tiers, log]) => {
       this.priceTiers = tiers;
@@ -120,6 +122,12 @@ export class LogFormComponent implements OnInit, OnDestroy {
     this.loadDataForSelectedDate();
   }
 
+  changeDay(amount: number): void {
+    const newDate = new Date(this.logDate.setDate(this.logDate.getDate() + amount));
+    this.logDate = newDate;
+    this.onDateChange();
+  }
+
   submitForm(): void {
     if (this.logForm.invalid) return;
 
@@ -132,15 +140,13 @@ export class LogFormComponent implements OnInit, OnDestroy {
         priceTierId: e.priceTierId,
         count: Number(e.count) || 0,
         priceAtTime: this.priceTiers[index]?.price || 0
-      })),
-      totalDiamonds: this.totalDiamonds,
-      totalIncome: this.totalIncome,
+      }))
     };
 
     this.firestoreService.saveDailyLog(this.userId, logToSave).subscribe({
       next: () => {
         this.message.success(`Log for ${this.logDate.toLocaleDateString()} saved!`);
-        this.router.navigate(['/dashboard/monthly-view']);
+        this.router.navigate(['/dashboard']);
       },
       error: (err) => this.message.error(err.message)
     });
@@ -148,7 +154,6 @@ export class LogFormComponent implements OnInit, OnDestroy {
 
   private formatDate(date: Date): string {
     const d = new Date(date);
-    d.setHours(0, 0, 0, 0); // Normalize to start of day for consistent IDs
     return d.toISOString().split('T')[0]; // YYYY-MM-DD format
   }
 

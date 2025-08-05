@@ -8,6 +8,7 @@
       <nz-content class="app-content">
         <router-outlet></router-outlet>
       </nz-content>
+      <app-mobile-action-bar></app-mobile-action-bar>
       <nz-drawer [nzVisible]="drawerVisible" nzPlacement="left" (nzOnClose)="drawerVisible = false"
         [nzTitle]="drawerTitleTemplate" [nzClosable]="false" [nzBodyStyle]="{padding: 0}">
         <ng-container *nzDrawerContent>

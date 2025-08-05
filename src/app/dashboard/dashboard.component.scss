@@ -1,51 +1,110 @@
-.dashboard-container {
-    padding: 8px;
-}
-
-.dashboard-title {
-    color: var(--heading-color);
-    margin-bottom: 24px;
-    font-weight: 600;
-}
-
-.action-card {
-    background-color: var(--content-bg);
-    border: 1px solid var(--border-color-base);
-    box-shadow: var(--card-shadow);
+.page-container {
+    max-width: 1200px;
+    margin: auto;
     height: 100%;
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
 
-    &:hover {
-        transform: translateY(-5px);
-        border-color: var(--primary-color);
+.data-card {
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color-base);
+    height: 100%;
+    overflow: auto;
+}
+
+:host ::ng-deep {
+    .ant-card-head {
+        padding: 8px;
+        border-bottom-color: var(--border-color-split) !important;
+
+        .ant-card-head-wrapper,
+        .ant-card-head-title,
+        .ant-card-extra {
+            align-items: center;
+        }
+
     }
 
-    .card-content {
-        text-align: center;
-        padding: 24px 16px;
+    .ant-card-body,
+    .ant-card-extra,
+    .ant-card-head-title {
+        padding: 8px;
     }
 
-    .card-icon {
-        font-size: 48px;
-        color: var(--primary-color);
-        margin-bottom: 16px;
-    }
+}
 
-    .card-title {
-        color: var(--heading-color);
-        font-size: 18px;
+.card-extra-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+:host ::ng-deep .ant-table {
+    th {
         font-weight: 600;
-        margin-bottom: 8px;
+
+        small {
+            font-weight: normal;
+            color: var(--text-color-secondary);
+        }
+
+        &.archived-tier {
+            background-color: #ff4d4f1a;
+        }
     }
 
-    .card-description {
-        color: var(--text-color-secondary);
-        font-size: 14px;
-        line-height: 1.5;
+
+    .text-center {
+        text-align: center;
+    }
+
+    .text-right {
+        text-align: right;
     }
 }
 
-:host ::ng-deep .ant-card-body {
-    padding: 0;
+:host ::ng-deep .log-table {
+
+    .ant-table-thead>tr>th {
+        padding: 8px;
+
+    }
+
+    .ant-table-tbody>tr>td {
+        padding: 8px;
+
+        &.archived-tier {
+            background-color: #ff4d4f1a;
+        }
+    }
+}
+
+.font-1rm {
+    font-size: 1rem;
+}
+
+.total-income {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--primary-green);
+}
+
+.totals-footer {
+    padding: 12px 8px;
+    border-top: 1px solid var(--border-color-split);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-color-secondary);
+
+    strong {
+        font-size: 18px;
+        color: var(--heading-color);
+    }
+
+    .income strong {
+        color: var(--primary-green);
+    }
 }

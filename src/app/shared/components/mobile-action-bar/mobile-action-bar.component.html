@@ -1,0 +1,6 @@
+<div class="action-bar-container">
+    <a *ngFor="let action of actions" class="action-item" [routerLink]="action.route" routerLinkActive="active">
+        <i nz-icon [nzType]="action.icon"></i>
+        <span class="action-label">{{ action.label }}</span>
+    </a>
+</div>

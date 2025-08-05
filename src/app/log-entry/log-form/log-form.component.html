@@ -3,7 +3,7 @@
         <nz-spin [nzSpinning]="isLoading">
             <div [formGroup]="logForm" class="log-table-container">
                 <nz-table #logTable nzSize="small" [nzFrontPagination]="false" [nzShowPagination]="false"
-                    [nzBordered]="true" class="log-table" [nzData]="priceTiers">
+                    [nzBordered]="true" class="log-table" [nzTemplateMode]="true">
                     <thead>
                         <tr>
                             <th [nzWidth]="'60px'">Weight <br /> Sieve</th>
@@ -14,20 +14,21 @@
                     </thead>
                     <tbody formArrayName="entries">
                         <tr *ngFor="let control of entries.controls; let i = index" [formGroupName]="i">
-                            <td>
+                            <td [ngClass]="{'archived-tier': priceTiers[i].isArchived}">
                                 <strong>{{ priceTiers[i].weight }}</strong>
                                 <span *ngIf="priceTiers[i].sieve">-{{ priceTiers[i].sieve }}</span>
                             </td>
-                            <td class="text-right">{{ priceTiers[i].price | currency:'INR' }}</td>
-                            <td>
+                            <td [ngClass]="{'archived-tier': priceTiers[i].isArchived}" class="text-right">{{
+                                priceTiers[i].price | currency:'INR' }}</td>
+                            <td [ngClass]="{'archived-tier': priceTiers[i].isArchived}">
                                 <nz-form-item>
                                     <nz-form-control>
-                                        <nz-input-number class="w-full" formControlName="count"
+                                        <nz-input-number class="w-full rounded-border-important" formControlName="count"
                                             [nzMin]="0"></nz-input-number>
                                     </nz-form-control>
                                 </nz-form-item>
                             </td>
-                            <td class="text-right">
+                            <td [ngClass]="{'archived-tier': priceTiers[i].isArchived}" class="text-right">
                                 <strong>
                                     {{ ((control.value.count || 0) * (priceTiers[i].price || 0)) | currency:'INR' }}
                                 </strong>
@@ -44,14 +45,20 @@
                 <div class="total-item income">
                     Total Income: <strong>{{ totalIncome | currency:'INR' }}</strong>
                 </div>
-                <button nz-button nzType="primary" (click)="submitForm()" class="submit" [disabled]="logForm.invalid">
+                <button nz-button nzType="primary" (click)="submitForm()" class="submit rounded-border-important"
+                    [disabled]="logForm.invalid">
                     <i nz-icon nzType="save"></i> Save
                 </button>
             </div>
         </nz-spin>
     </nz-card>
     <ng-template #datePicker>
-        <nz-date-picker [(ngModel)]="logDate" (ngModelChange)="onDateChange()" [nzAllowClear]="false">
-        </nz-date-picker>
+        <div class="card-extra-controls">
+            <button nz-button (click)="changeDay(-1)" nzSize="large"><i nz-icon nzType="left"></i></button>
+            <nz-date-picker [(ngModel)]="logDate" nzSize="large" (ngModelChange)="onDateChange()"
+                [nzAllowClear]="false">
+            </nz-date-picker>
+            <button nz-button (click)="changeDay(1)" nzSize="large"><i nz-icon nzType="right"></i></button>
+        </div>
     </ng-template>
 </div>

@@ -56,7 +56,7 @@ export class PriceTiersComponent implements OnInit {
           this.tiers.push(this.createTierGroup(tier));
         });
       } else {
-        this.createTierGroup();
+        this.tiers.push(this.createTierGroup());
       }
       this.isLoading = false;
     });
@@ -65,10 +65,10 @@ export class PriceTiersComponent implements OnInit {
   // Creates a FormGroup for a single tier
   createTierGroup(tier?: PriceTier): FormGroup {
     return this.fb.group({
-      id: [tier?.id || null], // Keep track of the doc ID
-      weight: [tier?.weight || '', Validators.required],
-      sieve: [tier?.sieve || ''], // Not required
-      price: [tier?.price || 0, [Validators.required, Validators.min(0)]],
+      id: [tier?.id || null],
+      weight: [tier?.weight ?? '', Validators.required],
+      sieve: [tier?.sieve ?? ''],
+      price: [tier?.price ?? 0, tier?.id ? null : [Validators.required, Validators.min(0)]],
     });
   }
 
@@ -78,18 +78,10 @@ export class PriceTiersComponent implements OnInit {
     this.tiers.push(this.createTierGroup());
   }
 
-
-  // Removes a tier from the FormArray at a given index
-  removeTier(index: number): void {
-    // We'll need to add a way to delete from Firestore later if needed.
-    // For now, this just removes from the UI.
-    this.tiers.removeAt(index);
-  }
-
-  deleteTier(index: number): void {
+  archiveTier(index: number): void {
     const tierToDelete = this.tiers.at(index);
     const tierId = tierToDelete.get('id')?.value;
-
+    console.log(`Archiving tier with ID: ${tierId}`);
     // CASE 1: The row is new and not yet in Firestore (no ID).
     // Just remove it from the form array without showing a modal.
     if (!tierId) {
@@ -106,10 +98,8 @@ export class PriceTiersComponent implements OnInit {
       nzOkDanger: true,
       nzOnOk: () => {
         // This code runs when the user clicks "Yes, Delete"
-        this.firestoreService.deletePriceTier(this.userId, tierId).subscribe({
+        this.firestoreService.archivePriceTier(this.userId, tierId).subscribe({
           next: () => {
-            // Remove the row from the UI after successful deletion
-            this.tiers.removeAt(index);
             this.message.success('Price tier deleted successfully.');
           },
           error: (err: any) => {

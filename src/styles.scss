@@ -68,4 +68,14 @@ body.dark-theme {
 
 body {
     transition: background-color 0.3s ease-in-out;
+    overscroll-behavior-y: contain;
+}
+
+.rounded-border {
+    $radius: 8px;
+    border-radius: $radius;
+
+    &-important {
+        border-radius: $radius !important;
+    }
 }

@@ -20,12 +20,13 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-// We create a list of all the modules we want to share
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+
+
 const SHARED_MODULES = [
   CommonModule,
   ReactiveFormsModule,
   LayoutModule,
-  // --- Add all the ZORRO modules here ---
   NzFormModule,
   NzInputModule,
   NzButtonModule,
@@ -41,7 +42,8 @@ const SHARED_MODULES = [
   NzCardModule,
   NzEmptyModule,
   NzTableModule,
-  NzDatePickerModule
+  NzDatePickerModule,
+  NzToolTipModule
 ];
 
 @NgModule({
@@ -49,7 +51,6 @@ const SHARED_MODULES = [
   imports: [
     ...SHARED_MODULES
   ],
-  // We must EXPORT the modules so that other modules that import this SharedModule can use them
   exports: [
     ...SHARED_MODULES
   ]

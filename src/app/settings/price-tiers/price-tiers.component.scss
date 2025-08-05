@@ -1,8 +1,13 @@
+.page-container {
+    max-width: 900px;
+    margin: auto;
+}
+
 .page-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 12px;
+    margin-bottom: 24px;
 }
 
 .page-title {
@@ -11,25 +16,57 @@
     font-size: 1.25rem;
 }
 
-.header-actions {
-    display: flex;
-    gap: 8px;
+:host ::ng-deep {
+    .ant-card-head {
+        padding: 8px;
+    }
+
+    .ant-card-body,
+    .ant-card-extra,
+    .ant-card-head-title {
+        padding: 0;
+    }
+
 }
 
-@media (max-width: 768px) {
-    .table-scroll-container {
-        overflow-x: auto;
+.log-form-card {
+    padding: 0px;
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+}
+
+:host ::ng-deep .log-table {
+
+    .ant-table-thead>tr>th,
+    .ant-table-tbody>tr>td {
+        padding: 8px 8px;
     }
 }
 
-.ant-table-cell {
-    padding: 8px 8px;
-}
-
 td nz-form-item {
-    margin-bottom: 0;
+    margin: 0;
 }
 
 .w-full {
     width: 100%;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.totals-footer {
+    flex-shrink: 0;
+    margin: 0;
+    padding: 16px 20px;
+    border-top: 1px solid var(--border-color-split);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+
+    .submit {
+        width: 100%;
+    }
 }
