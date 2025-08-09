@@ -1,15 +1,15 @@
 <div class="page-container" [formGroup]="priceForm">
-    <nz-card class="log-form-card" [nzTitle]="'Manage Price'" [nzExtra]="extra">
+    <nz-card class="log-form-card" [nzTitle]="'MANAGE_PRICE' | translate " [nzExtra]="extra">
         <nz-spin [nzSpinning]="isLoading">
             <div class="log-table-container">
                 <nz-table #priceTable [nzFrontPagination]="false" [nzShowPagination]="false" nzBordered
                     class="log-table" [nzTemplateMode]="true">
                     <thead>
                         <tr>
-                            <th [nzWidth]="'35%'">Weight</th>
-                            <th [nzWidth]="'35%'">Sieve</th>
-                            <th [nzWidth]="'30%'">Price</th>
-                            <th nzAlign="center">Action</th>
+                            <th [nzWidth]="'35%'">{{ 'WEIGHT' | translate }}</th>
+                            <th [nzWidth]="'35%'">{{ 'SIEVE' | translate }}</th>
+                            <th [nzWidth]="'30%'">{{ 'PRICE' | translate }}</th>
+                            <th nzAlign="center">{{ 'ACTION' | translate }}</th>
                         </tr>
                     </thead>
                     <tbody formArrayName="tiers">
@@ -18,7 +18,7 @@
                                 <nz-form-item>
                                     <nz-form-control nzErrorTip>
                                         <nz-input-number class="w-full rounded-border-important"
-                                            formControlName="weight" [nzPlaceHolder]="'Weight'"
+                                            formControlName="weight" [nzPlaceHolder]="'WEIGHT' | translate"
                                             [nzMin]="0"></nz-input-number>
                                     </nz-form-control>
                                 </nz-form-item>
@@ -27,7 +27,7 @@
                                 <nz-form-item>
                                     <nz-form-control>
                                         <nz-input-number class="w-full rounded-border-important" formControlName="sieve"
-                                            [nzPlaceHolder]="'Sieve'" [nzMin]="0"></nz-input-number>
+                                            [nzPlaceHolder]="'SIEVE' | translate" [nzMin]="0"></nz-input-number>
                                     </nz-form-control>
                                 </nz-form-item>
                             </td>
@@ -39,12 +39,13 @@
                                         </span>
                                         <nz-input-number *ngIf="!tier.get('id')?.value"
                                             class="w-full rounded-border-important" formControlName="price"
-                                            [nzPlaceHolder]="'Price'" [nzMin]="0"></nz-input-number>
+                                            [nzPlaceHolder]="'PRICE' | translate" [nzMin]="0"></nz-input-number>
                                     </nz-form-control>
                                 </nz-form-item>
                             </td>
                             <td nzAlign="center">
-                                <button nz-button nzType="text" nzDanger (click)="archiveTier(i)">
+                                <button nz-button nzType="text" nz-tooltip [nzTooltipTitle]="'DELETE' | translate"
+                                    nzDanger (click)="archiveTier(i)">
                                     <i nz-icon nzType="delete"></i>
                                 </button>
                             </td>
@@ -56,7 +57,7 @@
             <div class="totals-footer">
                 <button nz-button nzType="primary" *ngIf="tiers.length > 0" (click)="submitForm()"
                     class="submit rounded-border-important" [disabled]="priceForm.invalid">
-                    <i nz-icon nzType="save"></i> Save
+                    <i nz-icon nzType="save"></i> {{ 'SAVE' | translate }}
                 </button>
             </div>
         </nz-spin>
@@ -66,7 +67,7 @@
 <ng-template #extra>
     <div class="header-actions">
         <button nz-button nzType="default" (click)="addNewTierRow()">
-            <i nz-icon nzType="plus"></i> Add New Tier
+            <i nz-icon nzType="plus"></i> {{ 'ADD_NEW_TIER' | translate }}
         </button>
     </div>
 </ng-template>

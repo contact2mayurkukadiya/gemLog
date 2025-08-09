@@ -1,24 +1,45 @@
-<ul nz-menu [nzTheme]="theme" nzMode="inline" (click)="onItemClick()">
+<ul nz-menu [nzTheme]="theme" nzMode="inline" (click)="onItemClick()" class="menu-height-full">
     <li nz-menu-item routerLink="/dashboard" routerLinkActive="ant-menu-item-selected">
         <i nz-icon nzType="appstore"></i>
-        <span>Home</span>
+        <span>{{'HOME' | translate }}</span>
     </li>
     <li nz-menu-item routerLink="/log/add" routerLinkActive="ant-menu-item-selected">
         <i nz-icon nzType="form"></i>
-        <span>Add Log</span>
+        <span>{{'ADD_LOG' | translate }}</span>
     </li>
     <li nz-menu-item routerLink="/settings" routerLinkActive="ant-menu-item-selected">
         <i nz-icon nzType="dollar"></i>
-        <span>Create Pricing</span>
+        <span>{{'CREATE_PRICING' | translate }}</span>
     </li>
     <li nz-menu-divider></li>
     <li nz-menu-item (click)="toggleTheme(); onToggleClick($event)">
         <i nz-icon [nzType]="themeService.isDarkMode ? 'sun' : 'moon'"></i>
-        <span>Switch to {{ themeService.isDarkMode ? 'Light' : 'Dark' }} Mode</span>
+        @if (themeService.isDarkMode) {
+        <span>{{'THEME_SWITCH_LIGHT' | translate }}</span>
+        } @else {
+        <span>{{'THEME_SWITCH_DARK' | translate }}</span>
+        }
     </li>
-
-    <li nz-menu-item (click)="logout()">
-        <i nz-icon nzType="logout"></i>
-        <span>Logout</span>
+    <li nz-menu-item class="language-selector-item" nz-tooltip nzTooltipTitle="Select Language"
+        (click)="$event.stopPropagation()">
+        <div class="language-selector-content">
+            <div class="language-label">
+                <i nz-icon nzType="global"></i>
+                <span>{{'LANGUAGE' | translate }}</span>
+            </div>
+            <nz-select #langSelect [ngModel]="selectedLanguage" (ngModelChange)="setLanguage($event)"
+                (click)="$event.stopPropagation()" class="rounded-border bg-transparent">
+                <nz-option *ngFor="let lang of languageService.availableLangs" [nzValue]="lang.code"
+                    [nzLabel]="lang.name">
+                </nz-option>
+            </nz-select>
+        </div>
     </li>
 </ul>
+
+<div class="menu-padding">
+    <button nz-button nzType="primary" class="rounded-border-important" nzBlock (click)="logout()">
+        <nz-icon nzType="logout" />
+        {{'LOGOUT' | translate }}
+    </button>
+</div>

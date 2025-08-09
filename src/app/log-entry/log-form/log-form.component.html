@@ -1,15 +1,16 @@
 <div class="page-container">
-    <nz-card class="log-form-card" [nzTitle]="isEditMode ? 'Edit Log' : 'Add New Log'" [nzExtra]="datePicker">
+    <nz-card class="log-form-card" [nzTitle]="isEditMode ? 'EDIT_LOG' : 'ADD_LOG' | translate" [nzExtra]="datePicker">
         <nz-spin [nzSpinning]="isLoading">
             <div [formGroup]="logForm" class="log-table-container">
                 <nz-table #logTable nzSize="small" [nzFrontPagination]="false" [nzShowPagination]="false"
                     [nzBordered]="true" class="log-table" [nzTemplateMode]="true">
                     <thead>
                         <tr>
-                            <th [nzWidth]="'60px'">Weight <br /> Sieve</th>
-                            <th class="text-right" [nzWidth]="'70px'">Price</th>
-                            <th>Diamond</th>
-                            <th class="text-right">Subtotal</th>
+                            <th [nzWidth]="'60px'">{{ 'WEIGHT' | translate }} <br /> {{ 'SIEVE' |
+                                translate }}</th>
+                            <th class="text-right" [nzWidth]="'70px'">{{ 'PRICE' | translate }}</th>
+                            <th>{{ 'DIAMOND' | translate }}</th>
+                            <th class="text-right">{{ 'SUBTOTAL' | translate }}</th>
                         </tr>
                     </thead>
                     <tbody formArrayName="entries">
@@ -24,7 +25,7 @@
                                 <nz-form-item>
                                     <nz-form-control>
                                         <nz-input-number class="w-full rounded-border-important" formControlName="count"
-                                            [nzMin]="0"></nz-input-number>
+                                            [nzMin]="0" [nzPlaceHolder]="'DIAMOND' | translate"></nz-input-number>
                                     </nz-form-control>
                                 </nz-form-item>
                             </td>
@@ -40,14 +41,14 @@
 
             <div class="totals-footer">
                 <div class="total-item">
-                    Total Diamonds: <strong>{{ totalDiamonds | number }}</strong>
+                    {{ 'TOTAL_DIAMONDS' | translate }}: <strong>{{ totalDiamonds | number }}</strong>
                 </div>
                 <div class="total-item income">
-                    Total Income: <strong>{{ totalIncome | currency:'INR' }}</strong>
+                    {{ 'DAILY_INCOME' | translate }}: <strong>{{ totalIncome | currency:'INR' }}</strong>
                 </div>
                 <button nz-button nzType="primary" (click)="submitForm()" class="submit rounded-border-important"
                     [disabled]="logForm.invalid">
-                    <i nz-icon nzType="save"></i> Save
+                    <i nz-icon nzType="save"></i> {{ 'SAVE' | translate }}
                 </button>
             </div>
         </nz-spin>

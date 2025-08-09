@@ -1,21 +1,16 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-
-// Standalone Imports
-import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { AuthService } from '../../../core/services/auth.service';
 import { ThemeService } from '../../../core/services/theme.service';
+import { LanguageService } from '../../../core/services/language.service';
+import { SharedModule } from '../../shared.module';
 
 @Component({
   selector: 'app-main-menu',
   standalone: true,
   imports: [
-    CommonModule,
-    RouterModule,
-    NzMenuModule,
-    NzIconModule,
+    SharedModule,
+    RouterModule
   ],
   templateUrl: './main-menu.component.html'
 })
@@ -29,7 +24,8 @@ export class MainMenuComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    public themeService: ThemeService
+    public themeService: ThemeService,
+    public languageService: LanguageService
   ) { }
 
   // All menu logic, including logout, now lives cleanly in this component
@@ -42,6 +38,15 @@ export class MainMenuComponent {
       },
     });
   }
+
+  get selectedLanguage() {
+    return this.languageService.getCurrentLang();
+  }
+
+  setLanguage(langCode: any) {
+    this.languageService.setLanguage(langCode);
+  }
+
 
   // This method will be called on any menu item click
   onItemClick(): void {

@@ -39,7 +39,7 @@ export class LoginComponent {
           this.message.success('Login Successful!');
           this.router.navigate(['/dashboard']);
         },
-        error: (err: any) => this.message.error(err.message),
+        error: (err: any) => this.message.error('Invalid Credentials'),
       });
     }
   }

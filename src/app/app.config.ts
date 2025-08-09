@@ -7,7 +7,7 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideHttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
@@ -15,6 +15,8 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { provideTranslateService, TranslateStore } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 
 registerLocaleData(en);
@@ -31,7 +33,20 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideNzI18n(en_US),
-    importProvidersFrom(FormsModule, NzDrawerModule, NzMenuModule),
+    importProvidersFrom(
+      FormsModule,
+      NzDrawerModule,
+      NzMenuModule
+    ),
+    provideTranslateService({
+      lang: 'en',
+      fallbackLang: 'en',
+      loader: provideTranslateHttpLoader({
+        prefix: '/assets/i18n/',
+        suffix: '.json'
+      })
+    }),
+    TranslateStore,
     provideAnimationsAsync(),
     provideHttpClient(),
     NzModalService

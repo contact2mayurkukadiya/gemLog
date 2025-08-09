@@ -78,4 +78,51 @@ body {
     &-important {
         border-radius: $radius !important;
     }
+
+    .ant-select-selector {
+        border-radius: 8px !important;
+    }
+}
+
+.bg-transparent {
+    background-color: transparent;
+
+    &-important {
+        background-color: transparent !important;
+    }
+
+    .ant-select-selector {
+        background-color: transparent !important;
+    }
+
+}
+
+.language-selector-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.language-label {
+    display: flex;
+    align-items: center;
+
+    span {
+        margin-left: 10px;
+    }
+}
+
+.language-selector-item {
+    &.ant-menu-item-selected {
+        background-color: transparent !important;
+    }
+}
+
+.menu-height-full {
+    height: calc(100% - 50px);
+}
+
+.menu-padding {
+    padding: 0px 24px;
 }

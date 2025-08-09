@@ -8,6 +8,7 @@ import { AuthService } from './core/services/auth.service';
 import { MenuService, NzMenuModule } from 'ng-zorro-antd/menu';
 import { MainMenuComponent } from './shared/components/main-menu/main-menu.component';
 import { MobileActionBarComponent } from './shared/components/mobile-action-bar/mobile-action-bar.component';
+import { LanguageService } from './core/services/language.service';
 
 @Component({
   selector: 'app-root',
@@ -31,7 +32,8 @@ export class AppComponent {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private authService: AuthService
+    private authService: AuthService,
+    private languageService: LanguageService
   ) {
     this.user$ = this.authService.user$;
     this.isMobile$ = this.breakpointObserver.observe([Breakpoints.Handset, Breakpoints.Tablet])

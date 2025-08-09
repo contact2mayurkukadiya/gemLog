@@ -14,17 +14,17 @@ import { RouterModule } from '@angular/router';
 export class MobileActionBarComponent {
   actions = [
     {
-      label: 'Home',
+      label: 'HOME',
       icon: 'appstore',
       route: '/dashboard'
     },
     {
-      label: 'Add Log',
+      label: 'ADD_LOG',
       icon: 'form',
       route: '/log/add'
     },
     {
-      label: 'Pricing',
+      label: 'CREATE_PRICING',
       icon: 'dollar',
       route: '/settings'
     }

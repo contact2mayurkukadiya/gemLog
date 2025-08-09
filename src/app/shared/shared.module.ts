@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Import all the NG-ZORRO modules you are using
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
@@ -21,10 +21,14 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 const SHARED_MODULES = [
   CommonModule,
+  FormsModule,
+  TranslateModule,
   ReactiveFormsModule,
   LayoutModule,
   NzFormModule,
@@ -43,7 +47,8 @@ const SHARED_MODULES = [
   NzEmptyModule,
   NzTableModule,
   NzDatePickerModule,
-  NzToolTipModule
+  NzToolTipModule,
+  NzSelectModule
 ];
 
 @NgModule({
