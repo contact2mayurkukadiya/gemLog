@@ -4,11 +4,13 @@ import { AuthService } from '../../../core/services/auth.service';
 import { ThemeService } from '../../../core/services/theme.service';
 import { LanguageService } from '../../../core/services/language.service';
 import { SharedModule } from '../../shared.module';
+import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
 
 @Component({
   selector: 'app-main-menu',
   standalone: true,
   imports: [
+    ThemeToggleComponent,
     SharedModule,
     RouterModule
   ],
@@ -39,6 +41,18 @@ export class MainMenuComponent {
       },
     });
   }
+
+  get isDark(): boolean {
+    return this.themeService.isDarkMode;
+  }
+
+  set isDark(value: boolean) {
+    // This is called automatically by [(ngModel)] from our custom control
+    // You could also add logic to not toggle if the value is the same.
+    this.themeService.toggleTheme();
+  }
+
+
 
   get selectedLanguage() {
     return this.languageService.getCurrentLang();

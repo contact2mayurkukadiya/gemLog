@@ -1,0 +1,151 @@
+// :host scopes all styles to this component.
+:host {
+    // --- Component-Level CSS Variables for Theming ---
+    --hue: 223;
+    --primary-toggle: hsl(var(--hue), 90%, 55%);
+    --trans-dur: 0.6s;
+    --trans-timing: cubic-bezier(0.65, 0, 0.35, 1);
+
+    // Default (Light Theme) Colors
+    --switch-bg: #2d3b45;
+    --switch-checked-bg: #fff;
+    --switch-icon-color: hsla(var(--hue), 10%, 60%);
+    --switch-checked-icon-color: hsla(var(--hue), 10%, 40%);
+    --switch-knob-icon-color: #ffffff;
+    --switch-shadow: 0 0.125em 0.5em hsla(var(--hue), 10%, 10%, 0.1);
+
+    display: block;
+    font-size: 16px; // Base font size for predictable scaling
+    line-height: 1;
+}
+
+// Scoped reset for all elements within this component
+* {
+    border: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+// Main switch container
+.switch {
+    margin: auto;
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    font-size: inherit;
+
+    &__icon {
+        color: var(--switch-icon-color);
+        pointer-events: none;
+        position: absolute;
+        top: 0.375em;
+        left: 0.375em;
+        width: 0.75em;
+        height: 0.75em;
+        transition:
+            color var(--trans-dur),
+            transform var(--trans-dur) var(--trans-timing);
+
+        &:nth-of-type(2) {
+            right: 0.375em;
+            left: auto;
+        }
+    }
+
+    &__inner,
+    &__inner-icons {
+        border-radius: 0.5em;
+        display: block;
+        overflow: hidden;
+        position: absolute;
+        top: 0.25em;
+        left: 0.25em;
+        width: 2.25em;
+        height: 1em;
+    }
+
+    // This is the moving blue circle (knob background)
+    &__inner:before {
+        background-color: var(--primary-toggle);
+        border-radius: inherit;
+        content: "";
+        display: block;
+        width: 100%;
+        height: 100%;
+        transform: translateX(-1.25em); // Starts hidden on the left
+        transition: transform var(--trans-dur) var(--trans-timing);
+    }
+
+    // This is the container for the icons that appear INSIDE the knob
+    &__inner-icons {
+        pointer-events: none;
+        transform: translateX(-1.25em); // Starts aligned with the hidden knob
+        transition: transform var(--trans-dur) var(--trans-timing);
+
+        .switch__icon {
+            color: var(--switch-knob-icon-color);
+            top: 0.125em; // Vertically center the inner icon in its 1em container
+            left: 0.125em; // Horizontally center the inner icon in the 1em circular part
+            transform: translateX(1.25em); // Counter-act the container's transform to appear stationary
+
+            &:nth-child(2) {
+                // This moves the second icon to the right side of the inner container
+                left: 1.375em;
+            }
+        }
+    }
+
+    &__input {
+        background-color: var(--switch-bg);
+        border-radius: 0.75em;
+        box-shadow: 0 0 0 0.0625em hsla(var(--hue), 90%, 50%, 0), var(--switch-shadow);
+        outline: transparent;
+        width: 2.75em;
+        height: 1.5em;
+        appearance: none;
+        transition: background-color var(--trans-dur), box-shadow var(--trans-dur);
+
+        &:checked {
+            background-color: var(--switch-checked-bg);
+
+            &~.switch__icon {
+                color: var(--switch-checked-icon-color);
+            }
+
+            &~.switch__inner:before,
+            &~.switch__inner-icons {
+                transform: translateX(1.25em); // Slide everything to the right
+            }
+
+            &~.switch__inner-icons {
+                .switch__icon:first-of-type {
+                    // Now counter-transform the icon to align it with the LEFT outer icon
+                    transform: translateX(-1.25em) rotate(-360deg);
+                }
+
+                .switch__icon:nth-of-type(2) {
+                    // Now counter-transform the icon to align it with the RIGHT outer icon
+                    transform: translateX(-1.25em) rotate(360deg);
+                }
+            }
+        }
+
+        // Rotation animation for the currently active background icon
+        &:not(:checked)~.switch__icon:first-of-type,
+        &:checked~.switch__icon:nth-of-type(2) {
+            transform: rotate(360deg);
+        }
+
+        &:focus-visible {
+            box-shadow: 0 0 0 0.0625em hsla(var(--hue), 90%, 50%, 1), var(--switch-shadow);
+        }
+    }
+
+    &__sr {
+        overflow: hidden;
+        position: absolute;
+        width: 1px;
+        height: 1px;
+    }
+}
