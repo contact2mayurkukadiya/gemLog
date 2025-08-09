@@ -1,21 +1,31 @@
 <div class="auth-page-container">
     <form nz-form [formGroup]="loginForm" class="auth-form" (ngSubmit)="submitForm()">
-        <h1 class="auth-title">Gem Log - Login</h1>
+        <img src="assets/images/icon.png" alt="Logo" class="auth-logo">
+        <h1 class="auth-title"><span class="color-nevyblue">Gem</span><span class="color-skyblue"> Log </span>Login
+        </h1>
         <nz-form-item>
             <nz-form-control nzErrorTip="Please input your username!">
-                <nz-input-group nzPrefixIcon="user">
+                <nz-input-group nzPrefixIcon="user" nzSize="large" class="rounded-border-important">
                     <input type="text" nz-input formControlName="email" placeholder="Email" />
                 </nz-input-group>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
             <nz-form-control nzErrorTip="Please input your Password!">
-                <nz-input-group nzPrefixIcon="lock">
-                    <input type="password" nz-input formControlName="password" placeholder="Password" />
+                <nz-input-group nzPrefixIcon="lock" nzSize="large" class="rounded-border-important"
+                    [nzSuffix]="suffixTemplate">
+                    <input [type]="passwordVisible ? 'text' : 'password'" nz-input formControlName="password"
+                        placeholder="Password" />
+                    <ng-template #suffixTemplate>
+                        <nz-icon class="ant-input-password-icon" [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                            (click)="passwordVisible = !passwordVisible" />
+                    </ng-template>
                 </nz-input-group>
             </nz-form-control>
         </nz-form-item>
-        <button nz-button class="auth-form-button" [nzType]="'primary'" [disabled]="loginForm.invalid">Log in</button>
+        <button nz-button class="auth-form-button rounded-border-important" nzSize="large" nzBlock [nzType]="'primary'"
+            [disabled]="loginForm.invalid">Log
+            in</button>
         <div class="switch-auth-link">
             Don't have an account? <a routerLink="/auth/signup">Register now!</a>
         </div>

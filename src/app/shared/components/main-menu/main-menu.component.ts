@@ -34,7 +34,10 @@ export class MainMenuComponent {
   // All menu logic, including logout, now lives cleanly in this component
   logout(): void {
     this.authService.logout().subscribe({
-      complete: () => this.router.navigate(['/auth/login']),
+      complete: () => {
+        this.router.navigate(['/auth/login'])
+        localStorage.clear();
+      },
       error: (err: any) => {
         console.error('Logout failed', err);
         this.router.navigate(['/auth/login']);

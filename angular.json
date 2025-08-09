@@ -42,7 +42,6 @@
               }
             ],
             "styles": [
-              "src/theme.less",
               "src/styles.scss",
               {
                 "input": "src/app/styles/themes/theme-light.less",

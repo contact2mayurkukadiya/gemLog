@@ -26,14 +26,15 @@ export class ThemeService {
   }
 
 
-  private loadInitialTheme() {
+  loadInitialTheme() {
     const localTheme = localStorage.getItem('app-theme') as 'light' | 'dark';
     if (localTheme) {
       this.setTheme(localTheme, false);
     } else {
-      // Default to OS preference if nothing is saved
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         this.setTheme('dark', false);
+      } else {
+        this.setTheme('light', false);
       }
     }
   }

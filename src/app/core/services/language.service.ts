@@ -66,9 +66,14 @@ export class LanguageService {
 
   private initLanguage(): void {
     this.translate.addLangs(this.availableLangs.map(l => l.code));
+    this.resetToDefault();
+  }
+
+  resetToDefault(): void {
     const localLang = localStorage.getItem('app-language') || this.translate.getDefaultLang() || 'en';
     this.setLanguage(localLang, false);
   }
+
 
   setLanguage(langCode: string, saveToDb: boolean = true): void {
     if (!this.locales[langCode]) return;

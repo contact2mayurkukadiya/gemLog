@@ -3,6 +3,24 @@
     background-color: var(--layout-bg);
 }
 
+.header-logo-icon {
+    height: 30px;
+    width: auto;
+}
+
+.app-header-logo-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.app-title {
+    color: var(--heading-color);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
 /* --- Header for Mobile --- */
 .app-header {
     background: var(--content-bg);
@@ -15,12 +33,6 @@
     top: 0;
     z-index: 1000;
 
-    .app-title {
-        color: var(--heading-color);
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 0;
-    }
 
     .trigger {
         color: var(--text-color);
@@ -70,6 +82,12 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+
+    .drawer-logo-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
 }
 
 :host ::ng-deep .ant-drawer-body {

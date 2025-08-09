@@ -1,11 +1,12 @@
 <div class="auth-page-container">
     <form nz-form [formGroup]="signupForm" class="auth-form" (ngSubmit)="submitForm()">
-        <h1 class="auth-title">Create Account</h1>
-
+        <img src="assets/images/icon.png" alt="Logo" class="auth-logo">
+        <h1 class="auth-title"><span class="color-nevyblue">Create</span><span class="color-skyblue"> Account</span>
+        </h1>
         <!-- Email Input -->
         <nz-form-item>
             <nz-form-control nzErrorTip="Please enter a valid email address!">
-                <nz-input-group nzPrefixIcon="mail">
+                <nz-input-group nzPrefixIcon="mail" nzSize="large" class="rounded-border-important">
                     <input type="email" nz-input formControlName="email" placeholder="Email" />
                 </nz-input-group>
             </nz-form-control>
@@ -14,8 +15,14 @@
         <!-- Password Input -->
         <nz-form-item>
             <nz-form-control nzErrorTip="Password must be at least 6 characters long.">
-                <nz-input-group nzPrefixIcon="lock">
-                    <input type="password" nz-input formControlName="password" placeholder="Password" />
+                <nz-input-group nzPrefixIcon="lock" nzSize="large" class="rounded-border-important"
+                    [nzSuffix]="passwordVisibleTmp">
+                    <input [type]="passwordVisible ? 'text' : 'password'" nz-input formControlName="password"
+                        placeholder="Password" />
+                    <ng-template #passwordVisibleTmp>
+                        <nz-icon class="ant-input-password-icon" [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                            (click)="passwordVisible = !passwordVisible" />
+                    </ng-template>
                 </nz-input-group>
             </nz-form-control>
         </nz-form-item>
@@ -24,13 +31,21 @@
         <nz-form-item>
             <!-- We use the form group's error for the mismatch message -->
             <nz-form-control nzErrorTip="Passwords do not match!">
-                <nz-input-group nzPrefixIcon="lock">
-                    <input type="password" nz-input formControlName="confirmPassword" placeholder="Confirm Password" />
+                <nz-input-group nzPrefixIcon="lock" nzSize="large" class="rounded-border-important"
+                    [nzSuffix]="comparePasswordVisibleTmp">
+                    <input [type]="comparePasswordVisible ? 'text' : 'password'" nz-input
+                        formControlName="confirmPassword" placeholder="Confirm Password" />
+                    <ng-template #comparePasswordVisibleTmp>
+                        <nz-icon class="ant-input-password-icon"
+                            [nzType]="comparePasswordVisible ? 'eye-invisible' : 'eye'"
+                            (click)="comparePasswordVisible = !comparePasswordVisible" />
+                    </ng-template>
                 </nz-input-group>
             </nz-form-control>
         </nz-form-item>
 
-        <button nz-button class="auth-form-button" [nzType]="'primary'" [disabled]="signupForm.invalid">
+        <button nz-button nzSize="large" nzBlock class="auth-form-button rounded-border-important" [nzType]="'primary'"
+            [disabled]="signupForm.invalid">
             Sign Up
         </button>
 

@@ -3,7 +3,10 @@
     <nz-layout class="app-layout">
       <nz-header class="app-header">
         <i class="trigger" nz-icon nzType="menu" (click)="drawerVisible = true"></i>
-        <h1 class="app-title">Gem Log</h1>
+        <span class="app-header-logo-container">
+          <img src="assets/images/icon.png" class="header-logo-icon" (click)="drawerVisible = true" />
+          <h1 class="app-title"><span class="color-nevyblue">Gem</span><span class="color-skyblue"> Log</span></h1>
+        </span>
       </nz-header>
       <nz-content class="app-content">
         <router-outlet></router-outlet>
@@ -24,7 +27,10 @@
   <nz-layout class="app-layout">
     <nz-sider [nzTheme]="currentTheme" [nzWidth]="240">
       <div class="logo">
-        <h3>GemLog</h3>
+        <span class="app-header-logo-container">
+          <img src="assets/images/icon.png" class="header-logo-icon" />
+          <h1 class="app-title"><span class="color-nevyblue">Gem</span><span class="color-skyblue"> Log</span></h1>
+        </span>
       </div>
       <app-main-menu [theme]="currentTheme" [isMobile]="isMobile()!"></app-main-menu>
     </nz-sider>
@@ -44,7 +50,10 @@
 
 <ng-template #drawerTitleTemplate>
   <div class="drawer-title-container">
-    <span>Menu</span>
+    <div class="drawer-logo-container">
+      <img src="assets/images/icon.png" class="header-logo-icon" (click)="drawerVisible = true" />
+      <span>Menu</span>
+    </div>
     <button nz-button nzType="text" (click)="drawerVisible = false" class="close-drawer-btn">
       <i nz-icon nzType="close"></i>
     </button>

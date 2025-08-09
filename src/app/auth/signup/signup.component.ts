@@ -6,6 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { SharedModule } from '../../shared/shared.module';
 import { AuthService } from '../../core/services/auth.service';
 
+
 // --- Custom Validator Function ---
 // This function checks if two form fields have the same value.
 export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
@@ -36,6 +37,8 @@ export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): V
 })
 export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
+  passwordVisible: boolean = false;
+  comparePasswordVisible: boolean = false;
 
   constructor(
     private fb: FormBuilder,

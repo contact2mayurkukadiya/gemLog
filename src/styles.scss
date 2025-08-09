@@ -1,10 +1,12 @@
 :root {
     // --- Primary & Accent Colors ---
-    --primary-color: #1890ff;
+    --primary-color: #00A1E9;
     /* The main brand color for buttons, links, highlights */
     --primary-green: #2ecc71;
     /* A secondary accent color for totals, etc. */
 
+    --light-green: #A2DA7A;
+    --dark-green: #5AB54E;
     // --- Background Colors ---
     --layout-bg: #f0f2f5;
     /* The background of the entire page layout */
@@ -42,10 +44,13 @@
 /* These variables are applied ONLY when the body has the 'dark-theme' class, switched by our ThemeService */
 body.dark-theme {
     // --- Primary & Accent Colors ---
-    --primary-color: #1890ff;
+    --primary-color: #00A1E9;
     --primary-green: #2ecc71;
 
     // --- Background Colors ---
+    --light-green: #A2DA7A;
+    --dark-green: #5AB54E;
+
     --layout-bg: #141414;
     --content-bg: #1f1f1f;
     --item-hover-bg: rgba(255, 255, 255, 0.08);
@@ -70,6 +75,15 @@ body {
     transition: background-color 0.3s ease-in-out;
     overscroll-behavior-y: contain;
 }
+
+.color-skyblue {
+    color: var(--primary-color);
+}
+
+.color-nevyblue {
+    color: #00396B;
+}
+
 
 .rounded-border {
     $radius: 8px;

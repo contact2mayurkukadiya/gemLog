@@ -3,7 +3,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 import { User } from '@angular/fire/auth';
-import { map, Observable, take } from 'rxjs';
+import { map, Observable, Subscription, take } from 'rxjs';
 import { AuthService } from './core/services/auth.service';
 import { MenuService, NzMenuModule } from 'ng-zorro-antd/menu';
 import { MainMenuComponent } from './shared/components/main-menu/main-menu.component';
@@ -31,6 +31,7 @@ export class AppComponent {
   drawerVisible = false;
   user$: Observable<User | null>;
   isMobile: Signal<boolean | undefined>;
+  private authSubscription!: Subscription;
 
 
 
@@ -50,9 +51,11 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
-    this.user$.pipe(take(1)).subscribe(user => {
+    this.authSubscription = this.authService.user$.subscribe(user => {
       if (user) {
         this.loadUserPreferences(user);
+      } else {
+        this.resetUserPreferences();
       }
     });
   }
@@ -73,4 +76,17 @@ export class AppComponent {
       }
     });
   }
+
+  resetUserPreferences(): void {
+    this.languageService.resetToDefault();
+    this.themeService.loadInitialTheme();
+  }
+
+  ngOnDestroy(): void {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
+  }
+
+
 }

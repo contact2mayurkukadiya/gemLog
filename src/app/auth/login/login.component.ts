@@ -16,6 +16,7 @@ import { SharedModule } from '../../shared/shared.module';
 })
 export class LoginComponent {
   loginForm!: FormGroup;
+  passwordVisible = false;
 
   constructor(
     private fb: FormBuilder,
