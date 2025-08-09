@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom, enableProdMode } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withHashLocation } from '@angular/router';
 
 import { routes } from './app.routes';
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
@@ -50,7 +50,7 @@ export const appConfig: ApplicationConfig = {
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
+    provideRouter(routes, withHashLocation()),
     provideNzI18n(en_US),
     importProvidersFrom(
       FormsModule,
@@ -61,7 +61,7 @@ export const appConfig: ApplicationConfig = {
       lang: 'en',
       fallbackLang: 'en',
       loader: provideTranslateHttpLoader({
-        prefix: '/assets/i18n/',
+        prefix: 'i18n/',
         suffix: '.json'
       })
     }),

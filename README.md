@@ -61,3 +61,11 @@ For more information on using the Angular CLI, including detailed command refere
 ## favicon tool
 
 to generate a favicon for site, [Use This Tool](https://realfavicongenerator.net/).
+
+
+## Deploy Angualr Build on Github
+
+```bash
+ng build
+angular-cli-ghpages --dir=dist/gemLog/browser
+```

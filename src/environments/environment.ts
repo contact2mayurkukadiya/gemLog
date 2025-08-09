@@ -1,5 +1,3 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build` will use `environment.prod.ts` for a production build.
 export const environment = {
     production: false,
     // Paste the configuration object from your Firebase project console here
