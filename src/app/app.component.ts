@@ -57,6 +57,10 @@ export class AppComponent {
     });
   }
 
+  get currentTheme() {
+    return this.themeService.isDarkMode ? 'dark' : 'light';
+  }
+
   loadUserPreferences(user: User): void {
     this.firestoreService.getUserData(user.uid).pipe(take(1)).subscribe(prefs => {
       if (prefs) {

@@ -13,7 +13,7 @@
         <span>{{'CREATE_PRICING' | translate }}</span>
     </li>
     <li nz-menu-divider></li>
-    <li nz-menu-item (click)="toggleTheme(); onToggleClick($event)">
+    <li nz-menu-item class="transparent-menu-item" (click)="toggleTheme(); onToggleClick($event)">
         <i nz-icon [nzType]="themeService.isDarkMode ? 'sun' : 'moon'"></i>
         @if (themeService.isDarkMode) {
         <span>{{'THEME_SWITCH_LIGHT' | translate }}</span>
@@ -21,7 +21,7 @@
         <span>{{'THEME_SWITCH_DARK' | translate }}</span>
         }
     </li>
-    <li nz-menu-item class="language-selector-item" nz-tooltip nzTooltipTitle="Select Language"
+    <li nz-menu-item class="transparent-menu-item" nz-tooltip nzTooltipTitle="Select Language"
         (click)="$event.stopPropagation()">
         <div class="language-selector-content">
             <div class="language-label">

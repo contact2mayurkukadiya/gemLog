@@ -12,7 +12,7 @@
       <nz-drawer [nzVisible]="drawerVisible" nzPlacement="left" (nzOnClose)="drawerVisible = false"
         [nzTitle]="drawerTitleTemplate" [nzClosable]="false" [nzBodyStyle]="{padding: 0}">
         <ng-container *nzDrawerContent>
-          <app-main-menu [theme]="'light'" (menuItemClicked)="drawerVisible = false"
+          <app-main-menu [theme]="currentTheme" (menuItemClicked)="drawerVisible = false"
             [isMobile]="isMobile()!"></app-main-menu>
         </ng-container>
       </nz-drawer>
@@ -22,11 +22,11 @@
 
 <ng-template #desktopLayout>
   <nz-layout class="app-layout">
-    <nz-sider nzTheme="light" [nzWidth]="240">
+    <nz-sider [nzTheme]="currentTheme" [nzWidth]="240">
       <div class="logo">
         <h3>GemLog</h3>
       </div>
-      <app-main-menu [theme]="'light'" [isMobile]="isMobile()!"></app-main-menu>
+      <app-main-menu [theme]="currentTheme" [isMobile]="isMobile()!"></app-main-menu>
     </nz-sider>
     <nz-layout>
       <nz-content class="app-content-desktop">
