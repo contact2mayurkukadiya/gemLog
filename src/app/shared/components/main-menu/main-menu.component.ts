@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, input, Input, Output } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { ThemeService } from '../../../core/services/theme.service';
@@ -17,6 +17,7 @@ import { SharedModule } from '../../shared.module';
 export class MainMenuComponent {
   // Allow the parent component to specify the theme
   @Input() theme: 'light' | 'dark' = 'dark';
+  isMobile = input<boolean>(false);
 
   // Create an output event to notify the parent when an item is clicked
   @Output() menuItemClicked = new EventEmitter<void>();

@@ -4,11 +4,29 @@ import { from, Observable, of } from 'rxjs';
 import { DailyLog, PriceTier } from '../models/gem-log.models';
 import { v4 as uuidv4 } from 'uuid';
 
+export interface UserPreferences {
+    theme?: 'light' | 'dark';
+    language?: string;
+}
+
+
 @Injectable({
     providedIn: 'root',
 })
 export class FirestoreService {
     constructor(private firestore: Firestore) { }
+
+    getUserData(userId: string): Observable<UserPreferences | null> {
+        const userDocRef = doc(this.firestore, `users/${userId}`);
+        return docData(userDocRef) as Observable<UserPreferences | null>;
+    }
+
+
+    updateUserPreferences(userId: string, prefs: Partial<UserPreferences>): Observable<void> {
+        const userDocRef = doc(this.firestore, `users/${userId}`);
+        return from(setDoc(userDocRef, prefs, { merge: true }));
+    }
+
 
     // Get Price Tiers for a User
     getPriceTiers(userId: string): Observable<PriceTier[]> {

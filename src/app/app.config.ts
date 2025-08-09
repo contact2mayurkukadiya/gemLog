@@ -4,7 +4,6 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
-import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { HttpClient, provideHttpClient } from '@angular/common/http';
@@ -17,9 +16,29 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { provideTranslateService, TranslateStore } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import localeEn from '@angular/common/locales/en';
+import localeHi from '@angular/common/locales/hi';
+import localeNl from '@angular/common/locales/nl';
+import localeHe from '@angular/common/locales/he';
+import localeZh from '@angular/common/locales/zh';
+import localeRu from '@angular/common/locales/ru';
+import localeTh from '@angular/common/locales/th';
+import localeFr from '@angular/common/locales/fr';
+import localePt from '@angular/common/locales/pt';
+import localeAf from '@angular/common/locales/af';
 
 
-registerLocaleData(en);
+registerLocaleData(localeEn);
+registerLocaleData(localeHi);
+registerLocaleData(localeNl);
+registerLocaleData(localeHe);
+registerLocaleData(localeZh);
+registerLocaleData(localeRu);
+registerLocaleData(localeTh);
+registerLocaleData(localeFr);
+registerLocaleData(localePt);
+registerLocaleData(localeAf);
+
 
 if (environment.production) {
   enableProdMode();

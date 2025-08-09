@@ -1,5 +1,5 @@
 <ng-container *ngIf="user$ | async as user; else showLogin">
-  <ng-container *ngIf="isMobile$ | async; else desktopLayout">
+  <ng-container *ngIf="isMobile() === true; else desktopLayout">
     <nz-layout class="app-layout">
       <nz-header class="app-header">
         <i class="trigger" nz-icon nzType="menu" (click)="drawerVisible = true"></i>
@@ -12,7 +12,8 @@
       <nz-drawer [nzVisible]="drawerVisible" nzPlacement="left" (nzOnClose)="drawerVisible = false"
         [nzTitle]="drawerTitleTemplate" [nzClosable]="false" [nzBodyStyle]="{padding: 0}">
         <ng-container *nzDrawerContent>
-          <app-main-menu [theme]="'light'" (menuItemClicked)="drawerVisible = false"></app-main-menu>
+          <app-main-menu [theme]="'light'" (menuItemClicked)="drawerVisible = false"
+            [isMobile]="isMobile()!"></app-main-menu>
         </ng-container>
       </nz-drawer>
     </nz-layout>
@@ -25,7 +26,7 @@
       <div class="logo">
         <h3>GemLog</h3>
       </div>
-      <app-main-menu [theme]="'light'"></app-main-menu>
+      <app-main-menu [theme]="'light'" [isMobile]="isMobile()!"></app-main-menu>
     </nz-sider>
     <nz-layout>
       <nz-content class="app-content-desktop">

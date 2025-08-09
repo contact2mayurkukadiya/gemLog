@@ -7,7 +7,6 @@ import {
   authState,
   User
 } from '@angular/fire/auth';
-import { FirebaseApp } from '@angular/fire/app'; // <-- Import FirebaseApp
 
 import { from, Observable } from 'rxjs';
 
@@ -15,13 +14,10 @@ import { from, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  // **** FIX ****
-  // 1. DECLARE the property here without initializing it.
+
   readonly user$: Observable<User | null>;
 
-  constructor(private app: FirebaseApp, private auth: Auth) {
-    console.log("AuthService received initialized Firebase App:", this.app);
-    // Now, 'this.auth' is guaranteed to exist.
+  constructor(private auth: Auth) {
     this.user$ = authState(this.auth);
   }
 

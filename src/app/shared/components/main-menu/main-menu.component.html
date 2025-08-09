@@ -1,4 +1,5 @@
-<ul nz-menu [nzTheme]="theme" nzMode="inline" (click)="onItemClick()" class="menu-height-full">
+<ul nz-menu [nzTheme]="theme" nzMode="inline" (click)="onItemClick()"
+    [ngClass]="{ 'mobile-menu': isMobile(), 'desktop-menu': !isMobile() }">
     <li nz-menu-item routerLink="/dashboard" routerLinkActive="ant-menu-item-selected">
         <i nz-icon nzType="appstore"></i>
         <span>{{'HOME' | translate }}</span>

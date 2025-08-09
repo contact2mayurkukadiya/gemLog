@@ -119,8 +119,12 @@ body {
     }
 }
 
-.menu-height-full {
+.mobile-menu {
     height: calc(100% - 50px);
+}
+
+.desktop-menu {
+    height: calc(100% - 115px);
 }
 
 .menu-padding {
