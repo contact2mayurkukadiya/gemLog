@@ -22,5 +22,8 @@
     "DAILY_INCOME": "Дневной доход",
     "SAVE": "Сохранить",
     "MANAGE_PRICE": "Управление ценами",
-    "ADD_NEW_TIER": "Добавить новый уровень"
+    "ADD_NEW_TIER": "Добавить новый уровень",
+    "VERSION_UPGRADE_NOTIFICATION_TITLE": "Требуется обновление",
+    "VERSION_UPGRADE_NOTIFICATION_CONTENT": "Доступна новая версия Gem Log. Пожалуйста, обновитесь, чтобы продолжить использовать приложение.",
+    "VERSION_UPGRADE_NOTIFICATION_OK_BUTTON": "Обновить сейчас"
 }

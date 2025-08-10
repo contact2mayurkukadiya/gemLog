@@ -22,5 +22,8 @@
     "TOTAL_INCOME": "કુલ આવક",
     "SAVE": "સાચવો",
     "MANAGE_PRICE": "વજન/ચારણી",
-    "ADD_NEW_TIER": "નવો વજન ઉમેરો"
+    "ADD_NEW_TIER": "નવો વજન ઉમેરો",
+    "VERSION_UPGRADE_NOTIFICATION_TITLE": "નવું અપડેટ",
+    "VERSION_UPGRADE_NOTIFICATION_CONTENT": "એપ્લિકેશન નું નવું અપડેટ ઉપલબ્ધ છે. કૃપા કરીને એપ્લિકેશનનો ઉપયોગ ચાલુ રાખવા માટે અપગ્રેડ કરો.",
+    "VERSION_UPGRADE_NOTIFICATION_OK_BUTTON": "અપગ્રેડ કરો"
 }

@@ -22,5 +22,8 @@
     "DAILY_INCOME": "รายได้รายวัน",
     "SAVE": "บันทึก",
     "MANAGE_PRICE": "จัดการราคา",
-    "ADD_NEW_TIER": "เพิ่มระดับใหม่"
+    "ADD_NEW_TIER": "เพิ่มระดับใหม่",
+    "VERSION_UPGRADE_NOTIFICATION_TITLE": "จำเป็นต้องอัปเดต",
+    "VERSION_UPGRADE_NOTIFICATION_CONTENT": "Gem Log มีเวอร์ชันใหม่ให้ใช้งาน กรุณาอัปเกรดเพื่อใช้งานแอปพลิเคชันต่อไป",
+    "VERSION_UPGRADE_NOTIFICATION_OK_BUTTON": "อัปเกรดทันที"
 }

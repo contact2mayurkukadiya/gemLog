@@ -22,5 +22,8 @@
     "DAILY_INCOME": "Revenu Journalier",
     "SAVE": "Enregistrer",
     "MANAGE_PRICE": "Gérer les Prix",
-    "ADD_NEW_TIER": "Ajouter un Niveau"
+    "ADD_NEW_TIER": "Ajouter un Niveau",
+    "VERSION_UPGRADE_NOTIFICATION_TITLE": "Mise à jour requise",
+    "VERSION_UPGRADE_NOTIFICATION_CONTENT": "Une nouvelle version de Gem Log est disponible. Veuillez mettre à jour pour continuer à utiliser l'application.",
+    "VERSION_UPGRADE_NOTIFICATION_OK_BUTTON": "Mettre à jour maintenant"
 }

@@ -22,5 +22,8 @@
     "DAILY_INCOME": "Daily Income",
     "SAVE": "Save",
     "MANAGE_PRICE": "Manage Price",
-    "ADD_NEW_TIER": "Add New Tier"
+    "ADD_NEW_TIER": "Add New Tier",
+    "VERSION_UPGRADE_NOTIFICATION_TITLE": "Update Required",
+    "VERSION_UPGRADE_NOTIFICATION_CONTENT": "A new version of Gem Log is available. Please upgrade to continue using the application.",
+    "VERSION_UPGRADE_NOTIFICATION_OK_BUTTON": "Upgrade Now"
 }
