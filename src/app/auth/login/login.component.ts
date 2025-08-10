@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AuthService } from '../../core/services/auth.service';
 import { SharedModule } from '../../shared/shared.module';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ import { SharedModule } from '../../shared/shared.module';
 export class LoginComponent {
   loginForm!: FormGroup;
   passwordVisible = false;
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -34,8 +36,14 @@ export class LoginComponent {
 
   submitForm(): void {
     if (this.loginForm.valid) {
+      this.isLoading = true;
+
       const { email, password } = this.loginForm.value;
-      this.authService.login(email, password).subscribe({
+      this.authService.login(email, password).pipe(
+        finalize(() => {
+          this.isLoading = false;
+        })
+      ).subscribe({
         next: () => {
           this.message.success('Login Successful!');
           this.router.navigate(['/dashboard']);

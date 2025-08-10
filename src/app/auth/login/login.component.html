@@ -24,8 +24,7 @@
             </nz-form-control>
         </nz-form-item>
         <button nz-button class="auth-form-button rounded-border-important" nzSize="large" nzBlock [nzType]="'primary'"
-            [disabled]="loginForm.invalid">Log
-            in</button>
+            [disabled]="loginForm.invalid" [nzLoading]="isLoading">Login</button>
         <div class="switch-auth-link">
             Don't have an account? <a routerLink="/auth/signup">Register now!</a>
         </div>
