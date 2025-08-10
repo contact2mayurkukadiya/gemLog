@@ -87,7 +87,6 @@ export class DashboardComponent {
           usedArchivedTierIds.add(entry.priceTierId);
         });
       });
-      console.log('Used Archived Tier IDs:', usedArchivedTierIds);
 
       this.activeTiersForMonth = allTiers.filter(tier =>
         !tier.isArchived || usedArchivedTierIds.has(tier.id)
