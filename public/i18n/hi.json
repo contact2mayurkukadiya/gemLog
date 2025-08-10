@@ -22,5 +22,8 @@
     "DAILY_INCOME": "दैनिक आय",
     "SAVE": "सहेजें",
     "MANAGE_PRICE": "वजन/छलनी",
-    "ADD_NEW_TIER": "नया वजन जोड़ें"
+    "ADD_NEW_TIER": "नया वजन जोड़ें",
+    "VERSION_UPGRADE_NOTIFICATION_TITLE": "नया अपडेट",
+    "VERSION_UPGRADE_NOTIFICATION_CONTENT": "एप्लिकेशन का एक नया अपडेट उपलब्ध है। कृपया एप्लिकेशन का उपयोग जारी रखने के लिए अपग्रेड करें।",
+    "VERSION_UPGRADE_NOTIFICATION_OK_BUTTON": "अपग्रेड करें"
 }

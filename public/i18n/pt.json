@@ -22,5 +22,8 @@
     "DAILY_INCOME": "Renda Diária",
     "SAVE": "Salvar",
     "MANAGE_PRICE": "Gerir Preços",
-    "ADD_NEW_TIER": "Adicionar Novo Nível"
+    "ADD_NEW_TIER": "Adicionar Novo Nível",
+    "VERSION_UPGRADE_NOTIFICATION_TITLE": "Atualização Necessária",
+    "VERSION_UPGRADE_NOTIFICATION_CONTENT": "Uma nova versão do Gem Log está disponível. Por favor, atualize para continuar a usar o aplicativo.",
+    "VERSION_UPGRADE_NOTIFICATION_OK_BUTTON": "Atualizar Agora"
 }

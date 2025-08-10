@@ -22,5 +22,8 @@
     "DAILY_INCOME": "Daaglikse Inkomste",
     "SAVE": "Stoor",
     "MANAGE_PRICE": "Bestuur Pryse",
-    "ADD_NEW_TIER": "Voeg Nuwe Vlak by"
+    "ADD_NEW_TIER": "Voeg Nuwe Vlak by",
+    "VERSION_UPGRADE_NOTIFICATION_TITLE": "Opdatering Vereis",
+    "VERSION_UPGRADE_NOTIFICATION_CONTENT": "'n Nuwe weergawe van Gem Log is beskikbaar. Gradeer asseblief op om voort te gaan met die gebruik van die toepassing.",
+    "VERSION_UPGRADE_NOTIFICATION_OK_BUTTON": "Gradeer Nou Op"
 }

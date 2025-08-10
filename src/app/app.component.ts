@@ -1,4 +1,4 @@
-import { Component, Signal } from '@angular/core';
+import { Component, effect, Signal } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
@@ -12,6 +12,9 @@ import { LanguageService } from './core/services/language.service';
 import { ThemeService } from './core/services/theme.service';
 import { FirestoreService } from './core/services/firestore.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { PwaUpdateService } from './core/services/pwa-update.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -33,14 +36,15 @@ export class AppComponent {
   isMobile: Signal<boolean | undefined>;
   private authSubscription!: Subscription;
 
-
-
   constructor(
     private breakpointObserver: BreakpointObserver,
     private authService: AuthService,
     private firestoreService: FirestoreService,
     private languageService: LanguageService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private pwaUpdateService: PwaUpdateService,
+    private modal: NzModalService,
+    private translate: TranslateService
   ) {
     this.user$ = this.authService.user$;
     this.isMobile = toSignal(
@@ -48,15 +52,55 @@ export class AppComponent {
         .observe([Breakpoints.Handset, Breakpoints.Tablet])
         .pipe(map(result => result.matches))
     );
+
+    effect(() => {
+      const updateEvent = this.pwaUpdateService.updateReadySignal();
+      console.log("updateEvent====>", updateEvent);
+      if (updateEvent?.type === 'VERSION_READY') {
+        this.showUpdateNotification();
+      }
+    });
   }
 
   ngOnInit(): void {
+    this.pwaUpdateService.initializeUpdateCheck();
+
     this.authSubscription = this.authService.user$.subscribe(user => {
       if (user) {
         this.loadUserPreferences(user);
       } else {
         this.resetUserPreferences();
       }
+    });
+  }
+
+  showUpdateNotification(): void {
+    const translationKeys = [
+      'VERSION_UPGRADE_NOTIFICATION_TITLE',
+      'VERSION_UPGRADE_NOTIFICATION_CONTENT',
+      'VERSION_UPGRADE_NOTIFICATION_OK_BUTTON'
+    ];
+
+
+    this.translate.get(translationKeys).pipe(
+      take(1)
+    ).subscribe(translations => {
+
+      this.modal.confirm({
+        nzTitle: translations['VERSION_UPGRADE_NOTIFICATION_TITLE'],
+        nzContent: translations['VERSION_UPGRADE_NOTIFICATION_CONTENT'],
+        nzOkText: translations['VERSION_UPGRADE_NOTIFICATION_OK_BUTTON'],
+        nzOkType: 'primary',
+        nzOkDanger: true,
+        nzCancelText: null,
+        nzCentered: true,
+        nzMaskClosable: false,
+        nzClosable: false,
+        nzOnOk: () => {
+          this.pwaUpdateService.activateUpdate();
+        },
+      });
+
     });
   }
 

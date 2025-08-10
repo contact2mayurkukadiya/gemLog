@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom, enableProdMode } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom, enableProdMode, isDevMode } from '@angular/core';
 import { provideRouter, withHashLocation } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -26,6 +26,7 @@ import localeTh from '@angular/common/locales/th';
 import localeFr from '@angular/common/locales/fr';
 import localePt from '@angular/common/locales/pt';
 import localeAf from '@angular/common/locales/af';
+import { provideServiceWorker } from '@angular/service-worker';
 
 
 registerLocaleData(localeEn);
@@ -46,6 +47,10 @@ if (environment.production) {
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(), // Enabled only for production builds
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
@@ -68,6 +73,9 @@ export const appConfig: ApplicationConfig = {
     TranslateStore,
     provideAnimationsAsync(),
     provideHttpClient(),
-    NzModalService
+    NzModalService, provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ]
 };

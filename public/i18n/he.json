@@ -22,5 +22,8 @@
     "DAILY_INCOME": "הכנסה יומית",
     "SAVE": "שמור",
     "MANAGE_PRICE": "נהל מחירים",
-    "ADD_NEW_TIER": "הוסף רמה חדשה"
+    "ADD_NEW_TIER": "הוסף רמה חדשה",
+    "VERSION_UPGRADE_NOTIFICATION_TITLE": "נדרש עדכון",
+    "VERSION_UPGRADE_NOTIFICATION_CONTENT": "גרסה חדשה של Gem Log זמינה. אנא שדרג כדי להמשיך להשתמש ביישום.",
+    "VERSION_UPGRADE_NOTIFICATION_OK_BUTTON": "שדרג עכשיו"
 }
